@@ -1,3 +1,35 @@
-<p>
-  shopping-edit works!
-</p>
+<div class="row">
+    <div class="col-xs-12">
+        <form>
+            <div class="row">
+                <div class="col-sm-5 form-group">
+                    <label for="name">Ingredient</label>
+                    <input 
+                        [(ngModel)]="ingredient.name" 
+                        placeholder="Ingredient Name"
+                        type="text" 
+                        id="name" 
+                        name="name" 
+                        class="form-control">
+                </div>
+                <div class="col-sm-2 form-group">
+                    <label for="amount">Quantity</label>
+                    <input [(ngModel)]="ingredient.amount" type="number" name="amount" class="form-control">
+                </div>
+                <div class="col-sm-2 form-group">
+                    <label for="amount">Unit</label>
+                    <select [(ngModel)]="ingredient.unit"  id="unit" name="unit" class="form-control">
+                        <option *ngFor="let unit of units" [ngValue]="unit.val">{{ unit.text }}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 btn-toolbar">
+                    <button (click)="onAddIngredient()" class="btn btn-success" type="submit">Add</button>
+                    <button (click)="onDeleteIngredient()" class="btn btn-danger" type="button">Delete</button>
+                    <button (click)="onClearIngredient()" class="btn btn-primary" type="button">Clear</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
