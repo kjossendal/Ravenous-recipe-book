@@ -1,13 +1,15 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Ingredient } from 'src/app/shared/ingredient.model';
+import { ShoppingListService } from 'src/app/services/shoppingList.service';
+import { CanDeactivateGuard } from 'src/app/services/can-deactivate-guard.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-shopping-edit',
   templateUrl: './shopping-edit.component.html',
   styleUrls: ['./shopping-edit.component.css']
 })
-export class ShoppingEditComponent implements OnInit {
-    @Output() ingredientAdded = new EventEmitter<{name: string, amount: number, unit: string}>();
+export class ShoppingEditComponent implements OnInit, CanDeactivateGuard {
     units = [
         { val: 'tsp', text: 'tsp'},
         { val: 'cup', text: 'cup'},
@@ -15,18 +17,19 @@ export class ShoppingEditComponent implements OnInit {
     ];
     ingredient = new Ingredient('',null,'');
 
-    constructor() {
-
-    }
-
-    onAddIngredient() {
-        console.log("ingredient", this.ingredient)
-        if(this.ingredient.name && this.ingredient.amount) {
-            this.ingredientAdded.emit(this.ingredient)
-        }
-    }
+    constructor(private shoppingListService: ShoppingListService) { };
 
     ngOnInit() {
     }
 
-}
+    onAddIngredient() {
+        if(this.ingredient.name && this.ingredient.amount) {
+            this.shoppingListService.addIngredient(this.ingredient)
+        }
+    }
+
+    canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
+        // do some logic here to check if an edit is currently in process 
+        return true
+    }
+};

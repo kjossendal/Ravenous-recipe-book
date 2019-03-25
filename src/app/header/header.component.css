@@ -1,9 +1,9 @@
-/* .navbar-header {
-    float: none;
-  } */
-  .navbar-toggle {
+.navbar {
+    border-radius: 0;
+}
+.navbar-toggle {
     display: block;
-  }
+}
   /* .navbar-collapse.collapse {
     display: none!important;
   }
@@ -16,3 +16,6 @@
   .navbar-collapse.collapse.in{
     display:block !important;
   } */
+.active-route-class {
+    background-color: #E2E2E2;
+}

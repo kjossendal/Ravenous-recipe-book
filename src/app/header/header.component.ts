@@ -1,4 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
+import { AuthService } from '../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-header',
@@ -9,12 +11,19 @@ import { Component, EventEmitter, Output } from '@angular/core';
 export class HeaderComponent {
     @Output() pageChanged = new EventEmitter<string>();
 
+    constructor(private authService: AuthService, private router: Router) {}
     isOpen = false;
 
-    onSelect(page: string) {
-        this.pageChanged.emit(page);
-    }
     toggleMenu() {
         this.isOpen = !this.isOpen;
     }
-}
+
+    login() {
+        this.authService.login();
+    }
+
+    logout() {
+        this.authService.logout();
+        this.router.navigate(['/']);
+    }
+};
