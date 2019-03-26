@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
 import { RecipeService } from 'src/app/services/recipe.service';
 import { Unit } from 'src/app/shared/unit.model';
@@ -19,6 +19,7 @@ export class RecipeEditComponent implements OnInit {
 
     constructor(
         private route: ActivatedRoute, 
+        private router: Router,
         private unitsService: UnitsService,
         private recipeService: RecipeService) { }
 
@@ -69,12 +70,14 @@ export class RecipeEditComponent implements OnInit {
     onSubmit() {
         let r = this.recipeForm.value;
         console.log(r)
-        const newRecipe = new Recipe(null, r.name, r.description, r.imagePath, r.ingredients);
+        // TODO faking an id response from db creation event
+        const newRecipe = new Recipe(Math.random(), r.name, r.description, r.imagePath, r.ingredients);
         if (this.editable) {
             this.recipeService.updateRecipe(this.id, newRecipe)
         } else {
             this.recipeService.addRecipe(newRecipe);
         }
+        this.router.navigate(['recipes', newRecipe.id])
     };
 
     onAddIngredient() {
@@ -87,7 +90,15 @@ export class RecipeEditComponent implements OnInit {
                 ]),
                 'unit': new FormControl()
             })
-        )
+        );
+    };
+
+    onDeleteIngredient(index) {
+        (<FormArray>this.recipeForm.get(['ingredients'])).removeAt(index);
+    }
+
+    onCancelEdit() {
+        this.router.navigate(['../'], {relativeTo: this.route})
     }
 
 }

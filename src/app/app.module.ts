@@ -12,6 +12,7 @@ import { RecipeItemComponent } from './recipes/recipe-list/recipe-item/recipe-it
 import { ShoppingListComponent } from './shopping-list/shopping-list.component';
 import { ShoppingEditComponent } from './shopping-list/shopping-edit/shopping-edit.component';
 import { DropdownDirective } from './shared/dropdown.directive';
+import { ShortenPipe } from './shared/shorten.pipe';
 import { ShoppingListService } from './services/shoppingList.service';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { AuthGuardService } from './services/auth-guard.service';
@@ -23,33 +24,44 @@ import { RecipeEditComponent } from './recipes/recipe-edit/recipe-edit.component
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { UnitsService } from './services/units.service';
+import { RecipeService } from './services/recipe.service';
+import { FilterPipe } from './shared/filter.pipe';
 
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HeaderComponent,
-    RecipesComponent,
-    RecipeListComponent,
-    RecipeDetailComponent,
-    RecipeItemComponent,
-    ShoppingListComponent,
-    ShoppingEditComponent,
-    DropdownDirective,
-    PageNotFoundComponent,
-    RecipeWrapperComponent,
-    RecipeToolbarComponent,
-    RecipeEditComponent,
-    HomeComponent,
-    LoginComponent,
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    FormsModule,
-    ReactiveFormsModule
-  ],
-  providers: [ShoppingListService, AuthGuardService, AuthService, CanDeactivateGuard, UnitsService],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        HeaderComponent,
+        RecipesComponent,
+        RecipeListComponent,
+        RecipeDetailComponent,
+        RecipeItemComponent,
+        ShoppingListComponent,
+        ShoppingEditComponent,
+        DropdownDirective,
+        PageNotFoundComponent,
+        RecipeWrapperComponent,
+        RecipeToolbarComponent,
+        RecipeEditComponent,
+        HomeComponent,
+        LoginComponent,
+        ShortenPipe,
+        FilterPipe
+    ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        FormsModule,
+        ReactiveFormsModule
+    ],
+    providers: [
+        ShoppingListService, 
+        AuthGuardService, 
+        AuthService, 
+        CanDeactivateGuard, 
+        RecipeService,
+        UnitsService
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }

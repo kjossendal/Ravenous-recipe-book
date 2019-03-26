@@ -60,14 +60,11 @@ export class RecipeService {
     };
 
     addRecipe(recipe: Recipe) {
-        // faking adding an ID here until db is setup, same in updateRecipe
-        recipe['id'] = Math.random();
         this.recipes.push(recipe);
         this.recipesChanged.next(this.recipes.slice());
     };
 
     updateRecipe(index: number, recipe: Recipe) {
-        recipe['id'] = Math.random();
         this.recipes[index] = recipe;
         this.recipesChanged.next(this.recipes.slice());
     };
