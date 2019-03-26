@@ -1,11 +1,30 @@
 <div class="container">
     <div class="row">
-        <div class="col-xs-10">
+        <div class="col-xs-12">
             <app-shopping-edit></app-shopping-edit>
             <hr>
             <ul class="list-group">
-                <a style="cursor:pointer" class="list-group-item" *ngFor="let ingredient of ingredients">
-                    {{ ingredient.name }} -> {{ ingredient.amount }} {{ ingredient.unit }}
+                <a 
+                    style="cursor:pointer; position: relative;" 
+                    class="list-group-item list-container" 
+                    (mouseenter)="onMouseEnter(i)"
+                    (mouseleave)="onMouseLeave()"
+                    *ngFor="let ingredient of ingredients; let i = index">
+                        {{ ingredient.amount }} {{ ingredient.unit }} {{ ingredient.name }}   
+                    <div class="button-group" *ngIf="highlightedItemIndex == i">
+                        <button class="btn btn-link">
+                            <span 
+                                (click)="onEditIngredient(ingredient.id)" 
+                                class="glyphicon glyphicon-pencil edit" 
+                                aria-hidden="true"></span>
+                        </button>
+                        <button class="btn btn-link">
+                            <span 
+                                (click)="onItemDelete(i)" 
+                                class="glyphicon glyphicon-remove-circle cancel" 
+                                aria-hidden="true"></span>
+                        </button>
+                    </div>
                 </a>
             </ul>
         </div>

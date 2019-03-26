@@ -1,31 +1,66 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Ingredient } from 'src/app/shared/ingredient.model';
 import { ShoppingListService } from 'src/app/services/shoppingList.service';
 import { CanDeactivateGuard } from 'src/app/services/can-deactivate-guard.service';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
+import { NgForm } from '@angular/forms';
+import { UnitsService } from 'src/app/services/units.service';
+import { Unit } from 'src/app/shared/unit.model';
 
 @Component({
   selector: 'app-shopping-edit',
   templateUrl: './shopping-edit.component.html',
   styleUrls: ['./shopping-edit.component.css']
 })
-export class ShoppingEditComponent implements OnInit, CanDeactivateGuard {
-    units = [
-        { val: 'tsp', text: 'tsp'},
-        { val: 'cup', text: 'cup'},
-        { val: 'gram', text: 'gram'},
-    ];
-    ingredient = new Ingredient('',null,'');
+export class ShoppingEditComponent implements OnInit, OnDestroy, CanDeactivateGuard {
+    @ViewChild('f') ingredientForm: NgForm;
+    sub: Subscription;
+    editMode = false;
+    editableItem: Ingredient;
+    units: Unit[];
 
-    constructor(private shoppingListService: ShoppingListService) { };
+    constructor(private shoppingListService: ShoppingListService, private unitsService: UnitsService) { };
 
     ngOnInit() {
+        this.units = this.unitsService.getUnits();
+
+        this.sub = this.shoppingListService.enabledEditing.subscribe(
+            (id: number) => {
+                this.editMode = true;
+                this.editableItem = this.shoppingListService.getIngredient(id);
+                this.ingredientForm.setValue({
+                    name: this.editableItem.name,
+                    amount: this.editableItem.amount,
+                    unit: this.editableItem.unit || ''
+                })
+            }
+        )
+    };
+
+    ngOnDestroy() {
+        this.sub.unsubscribe();
     }
 
-    onAddIngredient() {
-        if(this.ingredient.name && this.ingredient.amount) {
-            this.shoppingListService.addIngredient(this.ingredient)
-        }
+    onSubmit(form: NgForm) {
+        const ingredient = new Ingredient(null, form.value.name, form.value.amount, form.value.unit);
+        if(ingredient.name && ingredient.amount) {
+            if(this.editMode) {
+                this.shoppingListService.updateIngredient(this.editableItem.id, ingredient);
+                this.editMode = false;
+            } else {
+                this.shoppingListService.addIngredient(ingredient);
+            }
+        } else { throw new Error("Name and amount required")}
+        form.reset();
+    };
+
+    onDeleteIngredient(id) {
+        this.shoppingListService.deleteIngredient(id);
+    }
+
+    onClearIngredient(form: NgForm) {
+        this.editMode = false;
+        form.reset();
     }
 
     canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {

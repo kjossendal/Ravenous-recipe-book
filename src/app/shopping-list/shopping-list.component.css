@@ -1,0 +1,11 @@
+.button-group {
+    top: 5px;
+    right: 15px;
+    position: absolute;
+}
+.glyphicon.cancel {
+    color: red;
+}
+.glyphicon.edit {
+    color: green;
+}

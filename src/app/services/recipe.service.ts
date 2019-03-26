@@ -2,9 +2,13 @@ import { Injectable } from '@angular/core';
 import { Recipe } from '../recipes/recipe.model';
 import { Ingredient } from '../shared/ingredient.model';
 import { ShoppingListService } from './shoppingList.service';
+import { Subject } from 'rxjs';
+import { RecipesComponent } from '../recipes/recipes.component';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class RecipeService {
+    recipesChanged = new Subject<Recipe[]>();
 
     private recipes: Recipe[] = [
         new Recipe(
@@ -36,19 +40,46 @@ export class RecipeService {
         )
     ];
 
-    constructor(private shoppingListService: ShoppingListService) {}
+    constructor(
+        private shoppingListService: ShoppingListService,
+        private router: Router
+    ) {}
 
     getRecipes() {
         return this.recipes.slice(); //copies the array
     };
 
-    getRecipeByIndex(id) {
-        return this.recipes[id];
+    getRecipeByIndex(index) {
+        return this.recipes[index];
+    };
+
+    getRecipeById(id: number) {
+        return this.recipes.find((r) => {
+            return r.id == id;
+        })
+    };
+
+    addRecipe(recipe: Recipe) {
+        // faking adding an ID here until db is setup, same in updateRecipe
+        recipe['id'] = Math.random();
+        this.recipes.push(recipe);
+        this.recipesChanged.next(this.recipes.slice());
+    };
+
+    updateRecipe(index: number, recipe: Recipe) {
+        recipe['id'] = Math.random();
+        this.recipes[index] = recipe;
+        this.recipesChanged.next(this.recipes.slice());
     };
 
     deleteRecipe(id) {
-        this.recipes.splice(id, 1)
-    }
+        const index = this.recipes.findIndex(r => {
+            return r.id === id;
+        });
+        this.recipes.splice(index, 1);
+        this.recipesChanged.next(this.recipes.slice());
+        this.router.navigate(['recipes']);
+    };
 
     addIngredientsToShoppingList(ingredients: Ingredient[]) {
         this.shoppingListService.addIngredients(ingredients);

@@ -1,33 +1,40 @@
 <div class="row">
     <div class="col-xs-12">
-        <form>
+        <form (ngSubmit)="onSubmit(f)" #f="ngForm">
             <div class="row">
                 <div class="col-sm-5 form-group">
                     <label for="name">Ingredient</label>
                     <input 
-                        [(ngModel)]="ingredient.name" 
+                        ngModel
+                        required
                         placeholder="Ingredient Name"
                         type="text" 
-                        id="name" 
                         name="name" 
                         class="form-control">
                 </div>
                 <div class="col-sm-2 form-group">
                     <label for="amount">Quantity</label>
-                    <input [(ngModel)]="ingredient.amount" type="number" name="amount" class="form-control">
+                    <input 
+                        ngModel
+                        required
+                        pattern="^\s*(?=.*[1-9])\d*(?:\.\d{1,3})?\s*$"
+                        step="0.125"
+                        type="number" 
+                        name="amount" 
+                        class="form-control">
                 </div>
                 <div class="col-sm-2 form-group">
                     <label for="amount">Unit</label>
-                    <select [(ngModel)]="ingredient.unit"  id="unit" name="unit" class="form-control">
+                    <select ngModel name="unit" class="form-control">
                         <option *ngFor="let unit of units" [ngValue]="unit.val">{{ unit.text }}</option>
                     </select>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12 btn-toolbar">
-                    <button (click)="onAddIngredient()" class="btn btn-success" type="submit">Add</button>
-                    <button (click)="onDeleteIngredient()" class="btn btn-danger" type="button">Delete</button>
-                    <button (click)="onClearIngredient()" class="btn btn-primary" type="button">Clear</button>
+                <div class="col-sm-3 form-group">
+                    <label for="">Actions</label>
+                    <div class="btn-toolbar">
+                        <button [disabled]="!f.valid" class="btn btn-success" type="submit">{{ editMode ? 'Update':'Add' }}</button>
+                        <button (click)="onClearIngredient(f)" class="btn btn-primary" type="button">Clear</button>
+                    </div>
                 </div>
             </div>
         </form>

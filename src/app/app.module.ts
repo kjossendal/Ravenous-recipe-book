@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -22,6 +22,7 @@ import { RecipeToolbarComponent } from './recipes/recipe-toolbar/recipe-toolbar.
 import { RecipeEditComponent } from './recipes/recipe-edit/recipe-edit.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
+import { UnitsService } from './services/units.service';
 
 
 @NgModule({
@@ -46,8 +47,9 @@ import { LoginComponent } from './login/login.component';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    ReactiveFormsModule
   ],
-  providers: [ShoppingListService, AuthGuardService, AuthService, CanDeactivateGuard],
+  providers: [ShoppingListService, AuthGuardService, AuthService, CanDeactivateGuard, UnitsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
