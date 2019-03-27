@@ -1,6 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpModule } from '@angular/http';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+
+import { environment } from '../environments/environment';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -26,6 +31,7 @@ import { LoginComponent } from './login/login.component';
 import { UnitsService } from './services/units.service';
 import { RecipeService } from './services/recipe.service';
 import { FilterPipe } from './shared/filter.pipe';
+import { ApiService } from './shared/api.service';
 
 
 @NgModule({
@@ -49,10 +55,13 @@ import { FilterPipe } from './shared/filter.pipe';
         FilterPipe
     ],
     imports: [
+        AngularFireModule.initializeApp(environment.firebase),
+        AngularFirestoreModule,
         BrowserModule,
         AppRoutingModule,
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        HttpModule,
     ],
     providers: [
         ShoppingListService, 
@@ -60,7 +69,8 @@ import { FilterPipe } from './shared/filter.pipe';
         AuthService, 
         CanDeactivateGuard, 
         RecipeService,
-        UnitsService
+        UnitsService,
+        ApiService,
     ],
     bootstrap: [AppComponent]
 })

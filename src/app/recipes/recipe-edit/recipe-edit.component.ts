@@ -1,10 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
+import { Response } from '@angular/http';
+
+
 import { RecipeService } from 'src/app/services/recipe.service';
 import { Unit } from 'src/app/shared/unit.model';
 import { UnitsService } from 'src/app/services/units.service';
 import { Recipe } from '../recipe.model';
+import { ApiService } from 'src/app/shared/api.service';
 
 @Component({
     selector: 'app-recipe-edit',
@@ -19,6 +23,7 @@ export class RecipeEditComponent implements OnInit {
 
     constructor(
         private route: ActivatedRoute, 
+        private apiService: ApiService,
         private router: Router,
         private unitsService: UnitsService,
         private recipeService: RecipeService) { }
@@ -69,15 +74,19 @@ export class RecipeEditComponent implements OnInit {
 
     onSubmit() {
         let r = this.recipeForm.value;
-        console.log(r)
         // TODO faking an id response from db creation event
         const newRecipe = new Recipe(Math.random(), r.name, r.description, r.imagePath, r.ingredients);
         if (this.editable) {
             this.recipeService.updateRecipe(this.id, newRecipe)
         } else {
-            this.recipeService.addRecipe(newRecipe);
+            // this.apiService.putRecipe(newRecipe).subscribe(
+            //     (response: Response) => {
+            //         console.log("EDIT RESPONSE", response)
+            //         this.recipeService.addRecipe(newRecipe);
+            //         this.router.navigate(['recipes', newRecipe.id])
+            //     }
+            // )
         }
-        this.router.navigate(['recipes', newRecipe.id])
     };
 
     onAddIngredient() {
