@@ -32,6 +32,7 @@ import { UnitsService } from './services/units.service';
 import { RecipeService } from './services/recipe.service';
 import { FilterPipe } from './shared/filter.pipe';
 import { ApiService } from './shared/api.service';
+import { AngularFireAuth } from '@angular/fire/auth';
 
 
 @NgModule({
@@ -66,6 +67,7 @@ import { ApiService } from './shared/api.service';
     providers: [
         ShoppingListService, 
         AuthGuardService, 
+        AngularFireAuth,
         AuthService, 
         CanDeactivateGuard, 
         RecipeService,

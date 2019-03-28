@@ -3,7 +3,6 @@ import { Recipe } from '../recipes/recipe.model';
 import { Ingredient } from '../shared/ingredient.model';
 import { ShoppingListService } from './shoppingList.service';
 import { Subject } from 'rxjs';
-import { RecipesComponent } from '../recipes/recipes.component';
 import { Router } from '@angular/router';
 import { Http } from '@angular/http';
 import { ApiService } from '../shared/api.service';
@@ -43,59 +42,10 @@ export class RecipeService {
     //     )
     // ];
 
-    constructor(
-        private http: Http,
-        private shoppingListService: ShoppingListService,
-        private router: Router,
-        private apiService: ApiService
-    ) { }
-
-    getRecipes() {
-        // this.apiService.getRecipes().subscribe(
-        //     (response) => {
-        //         console.log("R1", response.docs)
-        //         response.forEach(r => {
-        //             console.log("R", (<Recipe>r.data()))
-        //             let y = (<Recipe>r.data())
-        //             this.recipes.push(y)
-        //         })
-        //         // this.recipes = response
-        //     }
-        // )
-        // return this.recipes.slice(); //copies the array
-    };
+    constructor( private shoppingListService: ShoppingListService) { }
 
     getRecipeByIndex(index) {
         return this.recipes[index];
-    };
-
-    getRecipeById(id: number) {
-        return this.recipes.find((r) => {
-            return r.id == id;
-        })
-    };
-
-    // addRecipe(recipe: Recipe) {
-    //     this.recipes.push(recipe);
-    //     this.recipesChanged.next(this.recipes.slice());
-    // };
-    addRecipe(recipe: Recipe) {
-        this.recipes.push(recipe);
-        this.recipesChanged.next(this.recipes.slice());
-    };
-
-    updateRecipe(index: number, recipe: Recipe) {
-        this.recipes[index] = recipe;
-        this.recipesChanged.next(this.recipes.slice());
-    };
-
-    deleteRecipe(id) {
-        const index = this.recipes.findIndex(r => {
-            return r.id === id;
-        });
-        this.recipes.splice(index, 1);
-        this.recipesChanged.next(this.recipes.slice());
-        this.router.navigate(['recipes']);
     };
 
     addIngredientsToShoppingList(ingredients: Ingredient[]) {
