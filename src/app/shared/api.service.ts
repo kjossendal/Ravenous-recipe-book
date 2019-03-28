@@ -7,7 +7,8 @@ import { Recipe } from '../recipes/recipe.model';
     providedIn: 'root'
 })
 export class ApiService {
-    constructor(private db: AngularFirestore) { }
+    constructor(private db: AngularFirestore) { 
+    }
 
     updateRecipe(recipe: Recipe) {
         return this.db.doc<Recipe>('recipes/' + recipe.id).update({...recipe});
@@ -18,6 +19,9 @@ export class ApiService {
     getRecipes() {
         return this.db.collection<Recipe>('recipes').snapshotChanges();
     };
+    getNextRecipes() {
+        return this.db.collection('recipes', ref => ref.limit(1)).snapshotChanges();
+    }
     getRecipeById(id: string) {
         return this.db.collection<Recipe>('recipes').doc('/'+ id).valueChanges();
     };

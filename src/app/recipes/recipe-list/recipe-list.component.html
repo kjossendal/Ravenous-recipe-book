@@ -1,12 +1,21 @@
-<div class="row">
-    <div class="col-xs-12">
-        <input type="text" class="form-control" placeholder="Search" style="margin-bottom:20px" [(ngModel)]="filterText">
+<input type="text" class="form-control" placeholder="Search" style="margin-bottom:20px" [(ngModel)]="filterText">
+<div class="row text-center" style="overflow-x:scroll; white-space: nowrap;">
         <app-recipe-item 
             *ngFor="let recipe of recipes | filter:filterText:'name'" 
             [recipe]="recipe"></app-recipe-item>
-    </div>
 </div>
-<!-- <ul class="pager">
-    <li class="previous"><a href="#"><span aria-hidden="true">&larr;</span> Older</a></li>
-    <li class="next"><a href="#">Newer <span aria-hidden="true">&rarr;</span></a></li>
-</ul> -->
+
+<ul class="pager">
+    <li class="previous">
+        <a style="cursor:pointer;" (click)="getPrevious()">
+            <span aria-hidden="true">&larr;</span>
+             Older
+        </a>
+    </li>
+    <li class="next">
+        <a style="cursor:pointer;" (click)="getNext()">
+            Newer 
+            <span aria-hidden="true">&rarr;</span>
+        </a>
+    </li>
+</ul>

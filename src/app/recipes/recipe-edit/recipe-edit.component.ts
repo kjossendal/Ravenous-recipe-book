@@ -92,8 +92,8 @@ export class RecipeEditComponent implements OnInit {
         } else {
             const newRecipe = {name: r.name, description: r.description, imagePath: r.imagePath, ingredients: r.ingredients} as Recipe
             this.apiService.createRecipe(newRecipe)
-                .then(() => {
-                    this.router.navigate(['recipes', newRecipe.id])
+                .then((resp) => {
+                    this.router.navigate(['recipes', resp.id])
                 })
                 .catch(err => {
                     throw new Error(err)

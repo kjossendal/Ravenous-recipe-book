@@ -31,4 +31,22 @@ export class RecipeListComponent implements OnInit, OnDestroy {
     ngOnDestroy() {
         this.sub.unsubscribe();
     };
+
+    getNext() {
+        this.apiService.getNextRecipes().subscribe(
+            (data) => {
+                console.log("GET ONE", data)
+                this.recipes = data.map(e => {
+                    return {
+                        id: e.payload.doc.id,
+                        ...e.payload.doc.data()
+                    } as Recipe
+                })
+            }
+        )
+    };
+
+    getPrevious() {
+
+    };
 }

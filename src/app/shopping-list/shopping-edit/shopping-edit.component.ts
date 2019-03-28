@@ -27,12 +27,12 @@ export class ShoppingEditComponent implements OnInit, OnDestroy, CanDeactivateGu
         this.sub = this.shoppingListService.enabledEditing.subscribe(
             (id: number) => {
                 this.editMode = true;
-                this.editableItem = this.shoppingListService.getIngredient(id);
-                this.ingredientForm.setValue({
-                    name: this.editableItem.name,
-                    amount: this.editableItem.amount,
-                    unit: this.editableItem.unit || ''
-                })
+                // this.editableItem = this.shoppingListService.getIngredient(id);
+                // this.ingredientForm.setValue({
+                //     name: this.editableItem.name,
+                //     amount: this.editableItem.amount,
+                //     unit: this.editableItem.unit || ''
+                // })
             }
         )
     };
@@ -42,10 +42,10 @@ export class ShoppingEditComponent implements OnInit, OnDestroy, CanDeactivateGu
     }
 
     onSubmit(form: NgForm) {
-        const ingredient = new Ingredient(null, form.value.name, form.value.amount, form.value.unit);
+        const ingredient = new Ingredient(form.value.name, form.value.amount, form.value.unit);
         if(ingredient.name && ingredient.amount) {
             if(this.editMode) {
-                this.shoppingListService.updateIngredient(this.editableItem.id, ingredient);
+                // this.shoppingListService.updateIngredient(this.editableItem.id, ingredient);
                 this.editMode = false;
             } else {
                 this.shoppingListService.addIngredient(ingredient);

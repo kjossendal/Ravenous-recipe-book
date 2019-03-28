@@ -18,9 +18,9 @@ const routes: Routes = [
     { path: 'login', component: LoginComponent },
     { path: 'recipes', component: RecipesComponent, children: [
         { path: '', component: RecipeWrapperComponent },
-        { path: 'create', component: RecipeEditComponent, pathMatch: 'full', canActivate: [AuthService] },
+        { path: 'create', component: RecipeEditComponent, pathMatch: 'full', canActivate: [AuthGuardService] },
         { path: ':id', component: RecipeDetailComponent },
-        { path: ':id/edit', component: RecipeEditComponent, pathMatch: 'full', canActivate: [AuthService] },
+        { path: ':id/edit', component: RecipeEditComponent, pathMatch: 'full', canActivate: [AuthGuardService] },
     ] },
     { 
         path: 'shopping_list', 
