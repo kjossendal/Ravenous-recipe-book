@@ -32,7 +32,7 @@ export class RecipeEditComponent implements OnInit {
         this.units = this.unitsService.getUnits();
 
         this.route.params.subscribe((params: Params) => {
-            this.id = +params['id'];
+            this.id = params['id'];
             this.editable = params['id'] !== undefined;
             this.initForm();
         })
@@ -45,25 +45,53 @@ export class RecipeEditComponent implements OnInit {
         let recipeIngredients = new FormArray([]);
 
         if(this.editable) {
-            const recipe = this.recipeService.getRecipeById(this.id);
-            recipeName = recipe.name;
-            recipeImagePath = recipe.imagePath;
-            recipeDescription = recipe.description;
-            if(recipe.ingredients) {
-                for(let i of recipe.ingredients) {
-                    recipeIngredients.push(
-                        new FormGroup({
-                            'name': new FormControl(i.name, Validators.required),
-                            'amount': new FormControl(i.amount, [
-                                Validators.required, 
-                                Validators.pattern(/^\s*(?=.*[1-9])\d*(?:\.\d{1,3})?\s*$/)
-                            ]),
-                            'unit': new FormControl(i.unit)
-                        })
-                    )
-                }
-            }
+            this.apiService.getRecipeById(this.id).subscribe(
+                (data: Recipe) => {
+                    recipeName = data.name;
+                    console.log("TT", recipeName)
+                    recipeImagePath = data.imagePath;
+                    recipeDescription = data.description;
+                    data.ingredients.map(i => {
+                        recipeIngredients.push(
+                            new FormGroup({
+                                'name': new FormControl(i.name, Validators.required),
+                                'amount': new FormControl(i.amount, [
+                                    Validators.required, 
+                                    Validators.pattern(/^\s*(?=.*[1-9])\d*(?:\.\d{1,3})?\s*$/)
+                                ]),
+                                'unit': new FormControl(i.unit)
+                            })
+                        ) 
+                    })
+                    this.recipeForm = new FormGroup({
+                        'name': new FormControl(recipeName, Validators.required),
+                        'imagePath': new FormControl(recipeImagePath, Validators.required),
+                        'description': new FormControl(recipeDescription, Validators.required),
+                        'ingredients': recipeIngredients,
+                    })
+                    return
+                },
+                (err) => { throw new Error(err) }
+            )
+            // recipeName = recipe.name;
+            // recipeImagePath = recipe.imagePath;
+            // recipeDescription = recipe.description;
+            // if(recipe.ingredients) {
+            //     for(let i of recipe.ingredients) {
+            //         recipeIngredients.push(
+            //             new FormGroup({
+            //                 'name': new FormControl(i.name, Validators.required),
+            //                 'amount': new FormControl(i.amount, [
+            //                     Validators.required, 
+            //                     Validators.pattern(/^\s*(?=.*[1-9])\d*(?:\.\d{1,3})?\s*$/)
+            //                 ]),
+            //                 'unit': new FormControl(i.unit)
+            //             })
+            //         )
+            //     }
+            // }
         }
+        console.log("TT", recipeName)
         this.recipeForm = new FormGroup({
             'name': new FormControl(recipeName, Validators.required),
             'imagePath': new FormControl(recipeImagePath, Validators.required),
@@ -75,17 +103,17 @@ export class RecipeEditComponent implements OnInit {
     onSubmit() {
         let r = this.recipeForm.value;
         // TODO faking an id response from db creation event
-        const newRecipe = new Recipe(Math.random(), r.name, r.description, r.imagePath, r.ingredients);
+        const newRecipe = new Recipe(this.id, r.name, r.description, r.imagePath, r.ingredients);
         if (this.editable) {
-            this.recipeService.updateRecipe(this.id, newRecipe)
+            this.apiService.updateRecipe(newRecipe)
         } else {
-            // this.apiService.putRecipe(newRecipe).subscribe(
-            //     (response: Response) => {
-            //         console.log("EDIT RESPONSE", response)
-            //         this.recipeService.addRecipe(newRecipe);
-            //         this.router.navigate(['recipes', newRecipe.id])
-            //     }
-            // )
+            this.apiService.createRecipe(newRecipe)
+                .then(() => {
+                    this.router.navigate(['recipes', newRecipe.id])
+                })
+                .catch(err => {
+                    throw new Error(err)
+                })
         }
     };
 

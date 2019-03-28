@@ -8,9 +8,9 @@
                 </div>
             </div>
             <hr />
-            <div class="row" *ngIf="imagePath.value">
+            <div class="row" *ngIf="imagePath?.value">
                 <div class="col-xs-12">
-                    <img [src]="imagePath.value" style="max-height:200px;" alt="recipe display" class="img-responsive">
+                    <img [src]="imagePath?.value" style="max-height:200px;" alt="recipe display" class="img-responsive">
                 </div>
             </div>
             <div class="row">

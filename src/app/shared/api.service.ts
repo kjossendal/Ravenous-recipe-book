@@ -14,21 +14,18 @@ export class ApiService {
 
     constructor(private http: Http, private db: AngularFirestore) { }
 
-    putRecipe(recipe: Recipe) {
-        console.log("PUTTING", recipe);
-        // const headers = new Headers({'Content-type': 'application/json'})
-        return this.http.put(this.recipeUrl, recipe);
+    updateRecipe(recipe: Recipe) {
+        // delete recipe.id;
+        this.db.doc<Recipe>('recipes/' + recipe.id).update({...recipe})
     };
 
-    postRecipe(recipe: Recipe) {
-        console.log("POSTING", recipe);
-        // const headers = new Headers({'Content-type': 'application/json'})
-        return this.http.post(this.recipeUrl, recipe);
+    createRecipe(recipe: Recipe){
+        return this.db.collection<Recipe>('recipes').add({...recipe});
     };
     getRecipes() {
         return this.db.collection<Recipe>('recipes').snapshotChanges()
     };
     getRecipeById(id: number) {
-        return this.db.collection('recipes').doc('/'+ id).valueChanges()
+        return this.db.collection<Recipe>('recipes').doc('/'+ id).valueChanges()
     };
 };
