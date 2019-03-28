@@ -17,6 +17,7 @@ export class RecipeEditComponent implements OnInit {
     editable: boolean = false;
     recipeForm: FormGroup;
     units: Unit[];
+    working: Boolean = true;
 
     constructor(
         private route: ActivatedRoute, 
@@ -77,6 +78,7 @@ export class RecipeEditComponent implements OnInit {
             'description': new FormControl(recipeDescription, Validators.required),
             'ingredients': recipeIngredients,
         })
+        this.working = false;
     };
 
     onSubmit() {
@@ -85,7 +87,9 @@ export class RecipeEditComponent implements OnInit {
         if (this.editable) {
             const newRecipe = new Recipe(this.id, r.name, r.description, r.imagePath, r.ingredients);
             this.apiService.updateRecipe(newRecipe)
-                .then(() => {})
+                .then(() => {
+                    this.router.navigate(['recipes/' + this.id])
+                })
                 .catch(err => {
                     throw new Error(err)
                 })

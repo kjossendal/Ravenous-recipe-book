@@ -12,6 +12,7 @@ export class RecipeListComponent implements OnInit, OnDestroy {
     sub: Subscription;
     recipes: Recipe[];
     filterText: string = '';
+    working: Boolean = true;
 
     constructor(private apiService: ApiService) { };
 
@@ -19,11 +20,16 @@ export class RecipeListComponent implements OnInit, OnDestroy {
         this.sub = this.apiService.getRecipes().subscribe(
             (data) => {
                 this.recipes = data.map(e => {
+                    this.working = false;
                     return {
                         id: e.payload.doc.id,
                         ...e.payload.doc.data()
                     } as Recipe
                 })
+            },
+            (err) => {
+                console.log("Error fetching recipes", err)
+                this.working = false;
             }
         )
     };
@@ -49,4 +55,8 @@ export class RecipeListComponent implements OnInit, OnDestroy {
     getPrevious() {
 
     };
+
+    clearSearch() {
+        this.filterText = '';
+    }
 }

@@ -1,21 +1,13 @@
-<input type="text" class="form-control" placeholder="Search" style="margin-bottom:20px" [(ngModel)]="filterText">
-<div class="row text-center" style="overflow-x:scroll; white-space: nowrap;">
-        <app-recipe-item 
-            *ngFor="let recipe of recipes | filter:filterText:'name'" 
-            [recipe]="recipe"></app-recipe-item>
+<div class="input-group" style="margin-bottom:20px">
+    <input type="text" class="form-control" placeholder="Search" [(ngModel)]="filterText">
+    <span class="input-group-btn">
+        <button (click)="clearSearch()" class="btn btn-default" type="button">Clear</button>
+    </span>
 </div>
-
-<ul class="pager">
-    <li class="previous">
-        <a style="cursor:pointer;" (click)="getPrevious()">
-            <span aria-hidden="true">&larr;</span>
-             Older
-        </a>
-    </li>
-    <li class="next">
-        <a style="cursor:pointer;" (click)="getNext()">
-            Newer 
-            <span aria-hidden="true">&rarr;</span>
-        </a>
-    </li>
-</ul>
+<div class="row text-center" style="overflow-x:scroll; white-space: nowrap;">
+    <app-loading *ngIf="working"></app-loading>
+    <app-recipe-item 
+        *ngFor="let recipe of recipes | filter:filterText:'name'" 
+        [recipe]="recipe"></app-recipe-item>
+</div>
+<hr/>

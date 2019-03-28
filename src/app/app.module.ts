@@ -33,6 +33,7 @@ import { RecipeService } from './services/recipe.service';
 import { FilterPipe } from './shared/filter.pipe';
 import { ApiService } from './shared/api.service';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { LoadingComponent } from './shared/loading/loading.component';
 
 
 @NgModule({
@@ -53,7 +54,8 @@ import { AngularFireAuth } from '@angular/fire/auth';
         HomeComponent,
         LoginComponent,
         ShortenPipe,
-        FilterPipe
+        FilterPipe,
+        LoadingComponent
     ],
     imports: [
         AngularFireModule.initializeApp(environment.firebase),

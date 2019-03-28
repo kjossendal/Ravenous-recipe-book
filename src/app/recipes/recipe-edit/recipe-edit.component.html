@@ -1,16 +1,25 @@
 <div class="row">
+    <app-loading *ngIf="working; else showPage"></app-loading>
+    <ng-template #showPage>
+
     <div class="col-xs-12">
+        <h3 *ngIf="editable === false; else showEdit">Create new recipe</h3>
+        <ng-template #showEdit>
+            <h3>Edit {{ recipeForm.get('name').value }}</h3>
+        </ng-template>
+
         <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
-            <div class="row">
-                <div class="col-xs-12 btn-toolbar">
-                    <button [disabled]="!recipeForm.valid" type="submit" class="btn btn-success">Save</button>
-                    <button (click)="onCancelEdit()" type="button" class="btn btn-danger">Cancel</button>
-                </div>
-            </div>
-            <hr />
             <div class="row" *ngIf="imagePath?.value">
-                <div class="col-xs-12">
-                    <img [src]="imagePath?.value" style="max-height:200px;" alt="recipe display" class="img-responsive">
+                <div class="col-xs-12 col-sm-6">
+                    <img [src]="imagePath?.value" style="max-height:300px; margin:0 auto; border-radius:15px;" alt="recipe display" class="img-responsive">
+                </div>
+                <div class="col-xs-12 col-sm-6">
+                    <span style="float:right;">
+                        <div class="btn-toolbar">
+                            <button [disabled]="!recipeForm.valid" type="submit" class="btn btn-success">Save</button>
+                            <button (click)="onCancelEdit()" type="button" class="btn btn-danger">Cancel</button>
+                        </div>
+                    </span>
                 </div>
             </div>
             <div class="row">
@@ -89,4 +98,5 @@
             </div>
         </form>
     </div>
+    </ng-template>
 </div>
