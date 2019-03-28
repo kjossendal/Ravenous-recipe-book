@@ -6,8 +6,8 @@ export class ShoppingListService {
     enabledEditing = new Subject<number>();
 
     private ingredients: Ingredient[] = [
-        new Ingredient(11, 'Beef', 1, 'lb'),
-        new Ingredient(12, 'Tortillas', 30, ''),
+        new Ingredient('Beef', 1, 'lb'),
+        new Ingredient('Tortillas', 30, ''),
     ];
 
     getIngredients() {
@@ -15,9 +15,10 @@ export class ShoppingListService {
     };
 
     getIngredient(id: number) {
-        return this.ingredients.find((i) => {
-            return i.id === id;
-        })
+        // TODO rewrite when built in to firestore
+        // return this.ingredients.find((i) => {
+            // return i.id === id;
+        // })
     };
 
     addIngredient(ingredient: Ingredient) {
@@ -26,19 +27,19 @@ export class ShoppingListService {
     };
 
     updateIngredient(id: number, newIngredient: Ingredient) {
-        let index = this.ingredients.findIndex((ingredient) => {
-            return ingredient.id === id;
-        }); 
-        this.ingredients[index] = newIngredient;
-        this.onAddIngredient.next(this.ingredients.slice());
+        // let index = this.ingredients.findIndex((ingredient) => {
+        //     return ingredient.id === id;
+        // }); 
+        // this.ingredients[index] = newIngredient;
+        // this.onAddIngredient.next(this.ingredients.slice());
     };
 
     deleteIngredient(id) {
-        let cut = this.ingredients.findIndex((ingredient) => {
-            return ingredient.id === id;
-        });
-        this.ingredients.splice(cut, 1);
-        this.onAddIngredient.next(this.ingredients.slice());
+        // let cut = this.ingredients.findIndex((ingredient) => {
+        //     return ingredient.id === id;
+        // });
+        // this.ingredients.splice(cut, 1);
+        // this.onAddIngredient.next(this.ingredients.slice());
     };
 
     addIngredients(ingredients: Ingredient[]) {

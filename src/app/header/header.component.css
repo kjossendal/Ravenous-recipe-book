@@ -19,3 +19,8 @@
 .active-route-class {
     background-color: #E2E2E2;
 }
+
+.navbar-brand {
+    font-family: 'Merriweather Sans', sans-serif;
+    font-size: 25px;
+}

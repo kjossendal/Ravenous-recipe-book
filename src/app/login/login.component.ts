@@ -23,7 +23,7 @@ export class LoginComponent implements OnInit {
         console.log(this.user);
         this.authService.login(this.user)
             .then(resp => {
-                console.log("Login Successful", resp, resp.user.uid);
+                console.log("Login Successful", resp);
                 this.router.navigate(['recipes']);
             })
             .catch(err => {
@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
         console.log(this.user)
         this.authService.signUp(this.user)
             .then(resp => {
-                console.log("SignUp Successful", resp, resp.user.uid);
+                console.log("SignUp Successful", resp);
                 this.router.navigate(['recipes']);
             })
             .catch(err => {

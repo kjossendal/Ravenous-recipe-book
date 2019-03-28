@@ -5,32 +5,30 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class AuthService {
-    loggedIn = false;
+    token = window.localStorage.getItem('token');
 
     constructor(private afAuth: AngularFireAuth) {}
-
-    isAuth() {
-        const promise = new Promise((resolve, reject) => {
-            setTimeout(() => {
-                resolve(this.loggedIn);
-            }, 400)
-        })
-        return promise;
-    };
 
     loginGoogle() {
         // this.afAuth.auth.signInWithPopup(new auth.GoogleAuthProvider());
     }
 
     login(user) {
-        return this.afAuth.auth.signInWithEmailAndPassword(user.email, user.password);
+        return this.afAuth.auth.signInWithEmailAndPassword(user.email, user.password)
+            .then(() => {
+                this.getToken();
+            })
     };
 
     signUp(user) {
-        return this.afAuth.auth.createUserWithEmailAndPassword(user.email, user.password);
+        return this.afAuth.auth.createUserWithEmailAndPassword(user.email, user.password)
+            .then(() => {
+                this.getToken();
+            })
     };
 
     logout() {
+        window.localStorage.clear();
         return this.afAuth.auth.signOut();
     };
 
@@ -38,7 +36,12 @@ export class AuthService {
         return this.afAuth.auth.currentUser.getIdToken()
             .then(token => {
                 console.log("TOKEN", token)
-                return token
+                window.localStorage.setItem('token', token);
+                this.token = window.localStorage.getItem('token');
             })
+    };
+
+    isAuth() {
+        return this.token != null;
     }
 }

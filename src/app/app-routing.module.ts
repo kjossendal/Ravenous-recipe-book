@@ -11,21 +11,22 @@ import { RecipeDetailComponent } from './recipes/recipe-detail/recipe-detail.com
 import { RecipeEditComponent } from './recipes/recipe-edit/recipe-edit.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
+import { AuthService } from './services/auth.service';
 
 const routes: Routes = [
     { path: '', component: HomeComponent, pathMatch: 'full' },
     { path: 'login', component: LoginComponent },
     { path: 'recipes', component: RecipesComponent, children: [
         { path: '', component: RecipeWrapperComponent },
-        { path: 'create', component: RecipeEditComponent, pathMatch: 'full' },
+        { path: 'create', component: RecipeEditComponent, pathMatch: 'full', canActivate: [AuthService] },
         { path: ':id', component: RecipeDetailComponent },
-        { path: ':id/edit', component: RecipeEditComponent, pathMatch: 'full' },
+        { path: ':id/edit', component: RecipeEditComponent, pathMatch: 'full', canActivate: [AuthService] },
     ] },
     { 
         path: 'shopping_list', 
         component: ShoppingListComponent, 
-        // canActivate: [AuthGuardService], 
-        // canActivateChild: [AuthGuardService],
+        canActivate: [AuthGuardService], 
+        canActivateChild: [AuthGuardService],
         // canDeactivate: [CanDeactivateGuard]
     },
     { path: 'not_found', component: PageNotFoundComponent },

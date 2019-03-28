@@ -16,14 +16,16 @@ export class HeaderComponent {
 
     toggleMenu() {
         this.isOpen = !this.isOpen;
-    }
+    };
 
-    login() {
-        this.authService.login();
+    toLogin() {
+        this.isOpen = !this.isOpen;
+        this.router.navigate(['login']);
     }
 
     logout() {
+        this.isOpen = !this.isOpen;
         this.authService.logout();
         this.router.navigate(['/']);
-    }
+    };
 };
