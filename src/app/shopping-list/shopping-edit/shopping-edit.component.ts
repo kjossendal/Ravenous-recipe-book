@@ -6,6 +6,7 @@ import { Observable, Subscription } from 'rxjs';
 import { NgForm } from '@angular/forms';
 import { UnitsService } from 'src/app/services/units.service';
 import { Unit } from 'src/app/shared/unit.model';
+import { ApiService } from 'src/app/shared/api.service';
 
 @Component({
   selector: 'app-shopping-edit',
@@ -19,20 +20,33 @@ export class ShoppingEditComponent implements OnInit, OnDestroy, CanDeactivateGu
     editableItem: Ingredient;
     units: Unit[];
 
-    constructor(private shoppingListService: ShoppingListService, private unitsService: UnitsService) { };
+    constructor(
+        private apiService: ApiService, 
+        private shoppingListService: ShoppingListService, 
+        private unitsService: UnitsService
+    ) { };
 
     ngOnInit() {
         this.units = this.unitsService.getUnits();
 
         this.sub = this.shoppingListService.enabledEditing.subscribe(
-            (id: number) => {
+            (id: string) => {
                 this.editMode = true;
-                // this.editableItem = this.shoppingListService.getIngredient(id);
-                // this.ingredientForm.setValue({
-                //     name: this.editableItem.name,
-                //     amount: this.editableItem.amount,
-                //     unit: this.editableItem.unit || ''
-                // })
+                this.apiService.getIngredientById(id).subscribe(
+                    (ingredient: Ingredient) => {
+                        
+                        this.editableItem = {
+                            id: id,
+                            ...ingredient
+                        }
+
+                        this.ingredientForm.setValue({
+                            name: this.editableItem.name,
+                            amount: this.editableItem.amount,
+                            unit: this.editableItem.unit || ''
+                        })
+                    }
+                )
             }
         )
     };
@@ -42,16 +56,23 @@ export class ShoppingEditComponent implements OnInit, OnDestroy, CanDeactivateGu
     }
 
     onSubmit(form: NgForm) {
-        const ingredient = new Ingredient(form.value.name, form.value.amount, form.value.unit);
+        const ingredient = new Ingredient(this.editableItem.id, form.value.name, form.value.amount, form.value.unit);
         if(ingredient.name && ingredient.amount) {
             if(this.editMode) {
-                // this.shoppingListService.updateIngredient(this.editableItem.id, ingredient);
-                this.editMode = false;
+                this.apiService.updateIngredient(ingredient)
+                    .then(() => {
+                        this.editMode = false;
+                        form.reset();
+                    })
+                    .catch(err => {console.log("Error updating ingredient", err) })
             } else {
-                this.shoppingListService.addIngredient(ingredient);
+                this.apiService.createIngredient(ingredient)
+                    .then(() => {
+                        form.reset();
+                    })
+                    .catch(err => {console.log("Error creating ingredient", err) })
             }
         } else { throw new Error("Name and amount required")}
-        form.reset();
     };
 
     onDeleteIngredient(id) {
