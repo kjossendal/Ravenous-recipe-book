@@ -1,13 +1,16 @@
 <div class="input-group" style="margin-bottom:20px">
     <input type="text" class="form-control" placeholder="Search" [(ngModel)]="filterText">
-    <span class="input-group-btn">
-        <button (click)="clearSearch()" class="btn btn-default" type="button">Clear</button>
+    <span class="input-group-append">
+        <button (click)="clearSearch()" class="btn btn-primary">Clear</button>
     </span>
 </div>
-<div class="row text-center" style="overflow-x:scroll; white-space: nowrap;">
-    <app-loading *ngIf="working"></app-loading>
-    <app-recipe-item 
-        *ngFor="let recipe of recipes | filter:filterText:'name'" 
-        [recipe]="recipe"></app-recipe-item>
-</div>
+<!-- <div class="container-fluid"> -->
+
+    <div class="row flex-row flex-nowrap" style="overflow-x: scroll; white-space: nowrap; padding-bottom:10px;">
+        <app-loading *ngIf="working"></app-loading>
+        <div class="col-4" *ngFor="let recipe of recipes | filter:filterText:'name'">
+            <app-recipe-item [recipe]="recipe"></app-recipe-item>
+        </div>
+    </div>
+<!-- </div> -->
 <hr/>

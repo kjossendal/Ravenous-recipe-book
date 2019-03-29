@@ -1,1 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
+/* remove the built in negative margin on bootstrap rows */
+.row {
+    margin: 0;
+}

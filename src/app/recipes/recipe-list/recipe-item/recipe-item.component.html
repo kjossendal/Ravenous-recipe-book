@@ -1,15 +1,20 @@
-<div class="col-xs-4" style="display:inline-block; float: none;">
-    <a 
-        [routerLink]="[recipe.id]"
-        routerLinkActive="active"
-        style="cursor: pointer; margin-bottom:10px;" 
-        class="list-group-item clearfix">
-        <div class="pull-left">
-            <h4 class="list-group-item-heading">{{ recipe.name }}</h4>
-            <p class="list-group-item-text">{{ recipe.description | shorten:30 }}</p>
+<div 
+    (click)="onRecipeSelect()"
+    style="cursor: pointer;"
+    class="card">
+    <div class="row" style="min-height:80px;">
+        <div class="col-md-8 pr-1 my-auto">
+            <div class="card-block">
+                <h4 class="card-title">{{ recipe.name }}</h4>
+                <p class="card-text">{{ recipe.description | shorten:25 }}</p>
+            </div>
         </div>
-        <span class="pull-right">
-            <img src="{{ recipe.imagePath }}" alt="{{ recipe.name }}" class="img-responsive" style="max-height: 50px;">
-        </span>
-    </a>
+        <div class="col-md-4 pr-0 my-auto">
+            <img 
+                src="{{ recipe.imagePath }}" 
+                alt="{{ recipe.name }}" 
+                class="img-fluid rounded"
+            >
+        </div>
+    </div>
 </div>

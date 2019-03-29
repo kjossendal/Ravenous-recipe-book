@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 
@@ -29,7 +29,7 @@ import { CoreModule } from './core/core.module';
         BrowserModule,
         SharedModule,
         FormsModule,
-        HttpModule,
+        HttpClientModule,
         CoreModule,
         ShoppingListModule,
         AppRoutingModule,
