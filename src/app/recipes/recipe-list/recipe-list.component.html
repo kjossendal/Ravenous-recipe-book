@@ -6,8 +6,11 @@
 </div>
 <!-- <div class="container-fluid"> -->
 
-    <div class="row flex-row flex-nowrap" style="overflow-x: scroll; white-space: nowrap; padding-bottom:10px;">
-        <app-loading *ngIf="working"></app-loading>
+    <div class="row flex-row flex-nowrap" style="overflow-x: scroll; white-space: nowrap; padding-bottom:10px; margin:0 auto;">
+        <div class="col-12" *ngIf="working">
+
+            <app-loading></app-loading>
+        </div>
         <div class="col-4" *ngFor="let recipe of recipes | filter:filterText:'name'">
             <app-recipe-item [recipe]="recipe"></app-recipe-item>
         </div>

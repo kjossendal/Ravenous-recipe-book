@@ -40,6 +40,7 @@ export class RecipeEditComponent implements OnInit {
         let recipeName = '';
         let recipeImagePath = '';
         let recipeDescription = '';
+        let recipeInstructions = '';
         let recipeIngredients = new FormArray([]);
 
         if(this.editable) {
@@ -48,6 +49,7 @@ export class RecipeEditComponent implements OnInit {
                     recipeName = data.name;
                     recipeImagePath = data.imagePath;
                     recipeDescription = data.description;
+                    recipeInstructions = data.instructions;
                     data.ingredients.map(i => {
                         recipeIngredients.push(
                             new FormGroup({
@@ -64,6 +66,7 @@ export class RecipeEditComponent implements OnInit {
                         'name': new FormControl(recipeName, Validators.required),
                         'imagePath': new FormControl(recipeImagePath, Validators.required),
                         'description': new FormControl(recipeDescription, Validators.required),
+                        'instructions': new FormControl(recipeInstructions, Validators.required),
                         'ingredients': recipeIngredients,
                     })
                     return
@@ -76,6 +79,7 @@ export class RecipeEditComponent implements OnInit {
             'name': new FormControl(recipeName, Validators.required),
             'imagePath': new FormControl(recipeImagePath, Validators.required),
             'description': new FormControl(recipeDescription, Validators.required),
+            'instructions': new FormControl(recipeInstructions, Validators.required),
             'ingredients': recipeIngredients,
         })
         this.working = false;
@@ -85,7 +89,7 @@ export class RecipeEditComponent implements OnInit {
         const r = this.recipeForm.value;
 
         if (this.editable) {
-            const newRecipe = new Recipe(this.id, r.name, r.description, r.imagePath, r.ingredients);
+            const newRecipe = new Recipe(this.id, r.name, r.description, r.instructions, r.imagePath, r.ingredients);
             this.apiService.updateRecipe(newRecipe)
                 .then(() => {
                     this.router.navigate(['recipes/' + this.id])
