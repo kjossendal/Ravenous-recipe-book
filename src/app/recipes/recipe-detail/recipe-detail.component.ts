@@ -34,7 +34,7 @@ export class RecipeDetailComponent implements OnInit, OnDestroy {
     };
 
     onAddToShoppingList() {
-        this.recipeService.addIngredientsToShoppingList(this.currentRecipe.ingredients);
+        this.apiService.createIngredients(this.currentRecipe.ingredients)
     };
 
     onEditRecipe() {

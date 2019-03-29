@@ -41,6 +41,11 @@ export class ApiService {
     createIngredient(ingredient: Ingredient) {
         return this.db.collection<Ingredient>('shopping-list').add({...ingredient});
     };
+    createIngredients(ingredients: Ingredient[]) {
+        ingredients.forEach(i => {
+            this.createIngredient(i)
+        })
+    };
     updateIngredient(ingredient: Ingredient) {
         console.log("API UPDATE", ingredient)
         return this.db.doc<Ingredient>('shopping-list/' + ingredient.id).update({...ingredient})

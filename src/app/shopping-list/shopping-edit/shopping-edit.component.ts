@@ -75,17 +75,13 @@ export class ShoppingEditComponent implements OnInit, OnDestroy, CanDeactivateGu
         } else { throw new Error("Name and amount required")}
     };
 
-    onDeleteIngredient(id) {
-        this.shoppingListService.deleteIngredient(id);
-    }
-
     onClearIngredient(form: NgForm) {
         this.editMode = false;
         form.reset();
-    }
+    };
 
     canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
         // do some logic here to check if an edit is currently in process 
         return true
-    }
+    };
 };

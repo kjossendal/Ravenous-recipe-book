@@ -9,73 +9,32 @@ import { environment } from '../environments/environment';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HeaderComponent } from './header/header.component';
-import { RecipesComponent } from './recipes/recipes.component';
-import { RecipeListComponent } from './recipes/recipe-list/recipe-list.component';
-import { RecipeDetailComponent } from './recipes/recipe-detail/recipe-detail.component';
-import { RecipeItemComponent } from './recipes/recipe-list/recipe-item/recipe-item.component';
-import { ShoppingListComponent } from './shopping-list/shopping-list.component';
-import { ShoppingEditComponent } from './shopping-list/shopping-edit/shopping-edit.component';
-import { DropdownDirective } from './shared/dropdown.directive';
-import { ShortenPipe } from './shared/shorten.pipe';
-import { ShoppingListService } from './services/shoppingList.service';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { AuthGuardService } from './services/auth-guard.service';
-import { AuthService } from './services/auth.service';
-import { CanDeactivateGuard } from './services/can-deactivate-guard.service';
-import { RecipeWrapperComponent } from './recipes/recipe-wrapper/recipe-wrapper.component';
-import { RecipeToolbarComponent } from './recipes/recipe-toolbar/recipe-toolbar.component';
-import { RecipeEditComponent } from './recipes/recipe-edit/recipe-edit.component';
-import { HomeComponent } from './home/home.component';
-import { LoginComponent } from './login/login.component';
-import { UnitsService } from './services/units.service';
-import { RecipeService } from './services/recipe.service';
-import { FilterPipe } from './shared/filter.pipe';
-import { ApiService } from './shared/api.service';
-import { AngularFireAuth } from '@angular/fire/auth';
-import { LoadingComponent } from './shared/loading/loading.component';
 
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { LoginComponent } from './login/login.component';
+// import { AngularFireAuth } from '@angular/fire/auth';
+import { ShoppingListModule } from './shopping-list/shopping-list.module';
+import { SharedModule } from './shared/shared.module';
+import { CoreModule } from './core/core.module';
 
 @NgModule({
     declarations: [
         AppComponent,
-        HeaderComponent,
-        RecipesComponent,
-        RecipeListComponent,
-        RecipeDetailComponent,
-        RecipeItemComponent,
-        ShoppingListComponent,
-        ShoppingEditComponent,
-        DropdownDirective,
         PageNotFoundComponent,
-        RecipeWrapperComponent,
-        RecipeToolbarComponent,
-        RecipeEditComponent,
-        HomeComponent,
         LoginComponent,
-        ShortenPipe,
-        FilterPipe,
-        LoadingComponent
     ],
     imports: [
         AngularFireModule.initializeApp(environment.firebase),
         AngularFirestoreModule,
         BrowserModule,
-        AppRoutingModule,
+        SharedModule,
         FormsModule,
-        ReactiveFormsModule,
         HttpModule,
+        CoreModule,
+        ShoppingListModule,
+        AppRoutingModule,
     ],
-    providers: [
-        ShoppingListService, 
-        AuthGuardService, 
-        AngularFireAuth,
-        AuthService, 
-        CanDeactivateGuard, 
-        RecipeService,
-        UnitsService,
-        ApiService,
-    ],
+    providers: [ ],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

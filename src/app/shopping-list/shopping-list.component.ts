@@ -51,7 +51,6 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
     };
 
     onMouseEnter(index) {
-        console.log(index)
         this.highlightedItemIndex = index;
     };
 

@@ -49,6 +49,6 @@ export class RecipeService {
     };
 
     addIngredientsToShoppingList(ingredients: Ingredient[]) {
-        this.shoppingListService.addIngredients(ingredients);
+        // this.apiService.addIngredients(ingredients);
     };
 };

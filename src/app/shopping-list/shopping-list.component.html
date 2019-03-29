@@ -10,7 +10,7 @@
                     (mouseenter)="onMouseEnter(i)"
                     (mouseleave)="onMouseLeave()"
                     *ngFor="let ingredient of ingredients; let i = index">
-                        {{ ingredient.id }} {{ ingredient.amount }} {{ ingredient.unit }} {{ ingredient.name }}   
+                        {{ ingredient.amount }} {{ ingredient.unit }} {{ ingredient.name }}   
                     <div class="button-group" *ngIf="highlightedItemIndex == i">
                         <button class="btn btn-link">
                             <span 
@@ -20,7 +20,7 @@
                         </button>
                         <button class="btn btn-link">
                             <span 
-                                (click)="onItemDelete(i)" 
+                                (click)="onItemDelete(ingredient.id)" 
                                 class="glyphicon glyphicon-remove-circle cancel" 
                                 aria-hidden="true"></span>
                         </button>
