@@ -5,7 +5,7 @@
     <div class="row" style="min-height:80px;">
         <div class="col-md-8 pr-1 my-auto">
             <div class="card-block">
-                <h4 class="card-title">{{ recipe.name }}</h4>
+                <h5 class="card-title">{{ recipe.name | shorten:21 }}</h5>
                 <p class="card-text">{{ recipe.description | shorten:25 }}</p>
             </div>
         </div>

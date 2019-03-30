@@ -10,6 +10,7 @@ import { RecipeToolbarComponent } from './recipe-toolbar/recipe-toolbar.componen
 import { RecipeListComponent } from './recipe-list/recipe-list.component';
 import { RecipesRoutingModule } from './recipes-routing.module';
 import { SharedModule } from '../shared/shared.module';
+import { NgxTinymceModule } from 'ngx-tinymce';
 
 @NgModule({
     declarations: [
@@ -26,7 +27,12 @@ import { SharedModule } from '../shared/shared.module';
         ReactiveFormsModule,
         FormsModule,
         SharedModule,
-        RecipesRoutingModule
+        RecipesRoutingModule,
+        NgxTinymceModule.forRoot({
+            // baseURL: './assets/tinymce/',
+            // // or cdn
+            baseURL: '//cdnjs.cloudflare.com/ajax/libs/tinymce/4.9.0/'
+        })
     ]
 })
 export class RecipesModule { }
