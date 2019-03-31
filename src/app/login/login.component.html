@@ -13,36 +13,56 @@
         {{ errorMessage }}
     </div>
     <div class="row" style="margin-top: 40px;">
-        <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+        <div style="margin: 0 auto;" class="col-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
             <form #f="ngForm">
+
                 <div class="form-group">
                     <label for="email">E-Mail</label>
-                    <input
-                        type="email"
-                        id="email"
-                        class="form-control"
-                        [(ngModel)]="user.email"
-                        name="email"
-                        required
-                        email >
-                  <!-- <span class="help-block" *ngIf="!email.valid && email.touched">Please enter a valid email!</span> -->
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text bg-primary" id="basic-addon-email" style="color:#F2F2F2;">
+                                <i class="far fa-envelope"></i>
+                            </span>
+                        </div>
+                        <input 
+                            type="email" 
+                            class="form-control" 
+                            [(ngModel)]="user.email" 
+                            placeholder="Email" 
+                            name="email"
+                            required
+                            email
+                            aria-label="Email" 
+                            aria-describedby="basic-addon-email">
+                    </div>
                 </div>
+
                 <div class="form-group">
                     <label for="password">Password</label>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text bg-primary" style="color:#F2F2F2;" id="basic-addon-password">
+                                <i class="fas fa-key"></i>
+                            </span>
+                        </div>
                     <input
                         type="password"
                         id="password"
                         class="form-control"
                         [(ngModel)]="user.password"
+                        placeholder="password"
                         name="password"
-                        required>
+                        required
+                        aria-label="Password"
+                        aria-describedby="basic-addon-password">
                 <!-- <span *ngIf="!username.valid && username.touched">User name is required!</span> -->
+                    </div>
                 </div>
 
-                <div class="btn-toolbar">
+                <div class="btn-toolbar d-flex justify-content-end">
                     <button
                         (click)="login()"
-                        class="btn btn-primary">Login</button>
+                        class="btn btn-primary mr-2">Login</button>
                     <button
                         (click)="signup()"
                         class="btn btn-primary">Signup</button>

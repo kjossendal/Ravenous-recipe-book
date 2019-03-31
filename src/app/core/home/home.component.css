@@ -2,9 +2,16 @@
     display: flex;
     height: 450px;
     justify-content: center;
+    align-items: center;
     background-image: url('https://s3.amazonaws.com/codecademy-content/programs/react/ravenous/background_search_desktop.jpg');
     background-size: cover;
     background-repeat: no-repeat;
+}
+h1 {
+    font-size: 60px;
+}
+p {
+    font-size: 20px;
 }
 h1, p {
     color: #E2E2E2;

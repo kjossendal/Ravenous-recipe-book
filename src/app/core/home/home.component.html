@@ -1,12 +1,32 @@
 <div class="jumbotron jumbotron-fluid">
     <div class="container">
-        <h1>Ravenous</h1>
-        <p>The ultimate recipe book</p>
+        <!-- <div class="row"> -->
+            <h1>Ravenous</h1>
+            <p>The ultimate recipe book - with non of the filler</p>
+        <!-- </div> -->
         <div class="searchbar input-group input-group-lg">
-            <input type="text" class="form-control" placeholder="Search recipes" aria-describedby="basic-addon2">
-            <span class="input-group-append" id="basic-addon2">
-                <button (click)="handleClick()" class="btn btn-primary">Search</button>
+            <input 
+                type="text" 
+                class="form-control" 
+                [(ngModel)]="searchTerm"
+                placeholder="Search recipes" 
+                (keydown.enter)="handleSearch()"
+                aria-describedby="basic-addon-search">
+            <span class="input-group-append" id="basic-addon-search">
+                <button (click)="handleSearch()" class="btn btn-primary">Search</button>
             </span> 
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row" *ngIf="searchResults?.length > 0">
+        <p>Results for {{ searchTermPersist }}</p>
+        <div class="row">
+            <div 
+                *ngFor="let recipe of searchResults"
+                class="col-12 col-sm-6 col-md-4">
+                <app-recipe-item-card [recipe]="recipe"></app-recipe-item-card>
+            </div>
         </div>
     </div>
 </div>

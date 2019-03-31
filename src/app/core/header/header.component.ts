@@ -24,9 +24,14 @@ export class HeaderComponent {
     }
 
     logout() {
-        this.isOpen = !this.isOpen;
-        this.authService.logout();
-        this.router.navigate(['/']);
+        this.authService.logout()
+            .then(() => {
+                this.isOpen = !this.isOpen;
+                this.router.navigate(['/']);
+            })
+            .catch(err => {
+                console.log("Error logging out", err)
+            })
     };
 
     isAuth() {

@@ -12,15 +12,19 @@ import { CanDeactivateGuard } from '../services/can-deactivate-guard.service';
 import { RecipeService } from '../services/recipe.service';
 import { UnitsService } from '../services/units.service';
 import { ApiService } from '../shared/api.service';
+import { FormsModule } from '@angular/forms';
+import { RecipeItemCardComponent } from '../recipes/recipe-list/recipe-item-card/recipe-item-card.component';
 
 @NgModule({
     declarations: [
         HeaderComponent,
-        HomeComponent
+        HomeComponent,
+        RecipeItemCardComponent
     ],
     imports: [
         SharedModule,
         AppRoutingModule,
+        FormsModule
     ],
     exports: [
         AppRoutingModule,

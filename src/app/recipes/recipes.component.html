@@ -1,8 +1,10 @@
 <div class="container-fluid" style="margin-bottom:80px;">
     <div class="row">
-        <div class="col col-xs-12">
-            <app-recipe-toolbar></app-recipe-toolbar>
-        </div>
+        <ng-template *ngIf="isAuth()">
+            <div class="col col-xs-12">
+                <app-recipe-toolbar></app-recipe-toolbar>
+            </div>
+        </ng-template>
         <div class="col col-md-12">
             <app-recipe-list ></app-recipe-list>
         </div>

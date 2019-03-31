@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
     <a routerLink="/" class="navbar-brand">Ravenous</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -18,21 +18,17 @@
                 <a class="nav-link" routerLink="/recipes">Recipes</a>
             </li>
         </ul>
-          <!-- <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-          </form> -->
         <div class="dropdown">
             <button 
                 class="btn btn-secondary" 
                 type="button" 
-                id="dropdownMenuButton" 
+                id="dropdownMenuButtonHeader" 
                 data-toggle="dropdown" 
                 aria-haspopup="true" 
                 aria-expanded="false">
                     <i class="fas fa-bars"></i>
             </button>
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButtonHeader">
                 <a *ngIf="!isAuth()" class="dropdown-item" style="cursor:pointer;" (click)="toLogin()">Login</a>
                 <a *ngIf="isAuth()" class="dropdown-item" style="cursor:pointer;" (click)="logout()">Logout</a>
             </div>
