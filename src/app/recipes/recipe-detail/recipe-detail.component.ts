@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Recipe } from '../recipe.model';
-import { RecipeService } from 'src/app/services/recipe.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { ApiService } from 'src/app/shared/api.service';
 import { Subscription } from 'rxjs';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
     selector: 'app-recipe-detail',
@@ -14,7 +14,7 @@ export class RecipeDetailComponent implements OnInit, OnDestroy {
     sub: Subscription;
     currentRecipe: Recipe;
 
-    constructor(private apiService: ApiService,  private recipeService: RecipeService, private route: ActivatedRoute, private router: Router) { };
+    constructor(private apiService: ApiService,  private authService: AuthService, private route: ActivatedRoute, private router: Router) { };
 
     ngOnInit() {
         this.sub = this.route.params.subscribe( (params: Params) => {
@@ -34,7 +34,7 @@ export class RecipeDetailComponent implements OnInit, OnDestroy {
     };
 
     onAddToShoppingList() {
-        this.apiService.createIngredients(this.currentRecipe.ingredients)
+        this.apiService.createIngredients(this.currentRecipe.ingredients);
     };
 
     onEditRecipe() {
@@ -44,6 +44,10 @@ export class RecipeDetailComponent implements OnInit, OnDestroy {
     onDeleteRecipe() {
         this.apiService.deleteRecipe(this.currentRecipe.id);
         this.router.navigate(['recipes']);
-    }
+    };
+
+    isAuth() {
+        return this.authService.isAuth();
+    };
 
 };

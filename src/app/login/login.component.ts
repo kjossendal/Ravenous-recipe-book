@@ -20,7 +20,6 @@ export class LoginComponent implements OnInit {
     ngOnInit() { }
 
     login() {
-        console.log(this.user);
         this.authService.login(this.user)
             .then(resp => {
                 console.log("Login Successful", resp);
@@ -34,7 +33,6 @@ export class LoginComponent implements OnInit {
     };
 
     signup() {
-        console.log(this.user)
         this.authService.signUp(this.user)
             .then(resp => {
                 console.log("SignUp Successful", resp);
@@ -45,6 +43,10 @@ export class LoginComponent implements OnInit {
                 throw new Error(err)
             })
         this.signupForm.reset();
+    };
+
+    isAuth() {
+        return this.authService.isAuth();
     };
 
     dismiss() {

@@ -2,7 +2,7 @@
     <div class="container">
         <!-- <div class="row"> -->
             <h1>Ravenous</h1>
-            <p>The ultimate recipe book - with non of the filler</p>
+            <p>The ultimate recipe book - with none of the filler</p>
         <!-- </div> -->
         <div class="searchbar input-group input-group-lg">
             <input 
@@ -18,9 +18,14 @@
         </div>
     </div>
 </div>
+
+<div class="col-12" *ngIf="working">
+    <app-loading></app-loading>
+</div>
+
 <div class="container">
     <div class="row" *ngIf="searchResults?.length > 0">
-        <p>Results for {{ searchTermPersist }}</p>
+        <p>Results for: {{ searchTermPersist }}</p>
         <div class="row">
             <div 
                 *ngFor="let recipe of searchResults"

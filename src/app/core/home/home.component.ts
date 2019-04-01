@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable, Observer, Subscription, interval } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { ApiService } from 'src/app/shared/api.service';
 import { Recipe } from 'src/app/recipes/recipe.model';
 
@@ -13,6 +14,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     searchTerm: string = '';
     searchTermPersist: string = '';
     searchResults: Recipe[];
+    working: boolean = false;
 
     constructor(private apiService: ApiService) { };
 
@@ -49,17 +51,23 @@ export class HomeComponent implements OnInit, OnDestroy {
     };
 
     handleSearch() {
-        console.log("TERM", this.searchTerm)
-        this.sub = this.apiService.searchRecipes(this.searchTerm)
-            .subscribe(
-                (resp) => {
-                    this.searchResults = resp
-                },
-                (err) => {
-                    console.log("Error searching recipes", err);
-                }
-            )
-            this.searchTermPersist = this.searchTerm;
-            this.searchTerm = '';
+        this.working = true;
+        this.sub = this.apiService.searchRecipes(this.searchTerm.toLowerCase()).subscribe(
+            (data) => {
+                this.searchResults = data.map(e => {
+                    this.working = false;
+                    return {
+                        id: e.payload.doc.id,
+                        ...e.payload.doc.data()
+                    } as Recipe
+                })
+            },
+            (err) => {
+                console.log("Error fetching search results", err)
+                this.working = false;
+            }
+        );
+        this.searchTermPersist = this.searchTerm;
+        this.searchTerm = '';
     };
 }

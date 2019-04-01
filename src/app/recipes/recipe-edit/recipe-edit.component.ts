@@ -8,7 +8,6 @@ import { Recipe } from '../recipe.model';
 import { ApiService } from 'src/app/shared/api.service';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { Observable } from 'rxjs';
-import { finalize } from 'rxjs/operators';
 
 @Component({
     selector: 'app-recipe-edit',
@@ -25,6 +24,7 @@ export class RecipeEditComponent implements OnInit {
     uploadPercent: Observable<number>;
     downloadURL: Observable<string>;
     downloadURLString: string;
+    showLoadingProgress: boolean = false;
 
     constructor(
         private route: ActivatedRoute, 
@@ -118,6 +118,7 @@ export class RecipeEditComponent implements OnInit {
     };
 
     uploadFile(event) {
+        this.showLoadingProgress = true;
         const pathName = 'recipe_images/' + new Date().toString();
         const file = event.target.files[0];
         const filePath = pathName;

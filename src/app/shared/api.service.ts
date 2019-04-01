@@ -31,7 +31,7 @@ export class ApiService {
         return this.db.doc<Recipe>('recipes/' + id).delete();
     };
     searchRecipes(term: string) {
-        return this.db.collection<Recipe>('recipes', ref => ref.where('terms.'+term,'==', true)).valueChanges()
+        return this.db.collection<Recipe>('recipes', ref => ref.where('terms.'+term,'==', true)).snapshotChanges()
     }
 
     /* ****** Shopping List Section ************* */

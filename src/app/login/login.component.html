@@ -64,6 +64,7 @@
                         (click)="login()"
                         class="btn btn-primary mr-2">Login</button>
                     <button
+                        *ngIf="isAuth()"
                         (click)="signup()"
                         class="btn btn-primary">Signup</button>
                 </div>
