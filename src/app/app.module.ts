@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireStorageModule, StorageBucket } from '@angular/fire/storage';
 
 import { environment } from '../environments/environment';
 
@@ -26,6 +27,7 @@ import { CoreModule } from './core/core.module';
     imports: [
         AngularFireModule.initializeApp(environment.firebase),
         AngularFirestoreModule,
+        AngularFireStorageModule,
         BrowserModule,
         SharedModule,
         FormsModule,
@@ -34,7 +36,7 @@ import { CoreModule } from './core/core.module';
         ShoppingListModule,
         AppRoutingModule,
     ],
-    providers: [ ],
+    providers: [ { provide: StorageBucket, useValue: 'gs://ravenous-recipes.appspot.com' } ],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

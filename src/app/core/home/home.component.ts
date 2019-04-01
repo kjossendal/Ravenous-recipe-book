@@ -1,5 +1,4 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
 import { Observable, Observer, Subscription, interval } from 'rxjs';
 import { ApiService } from 'src/app/shared/api.service';
 import { Recipe } from 'src/app/recipes/recipe.model';
@@ -15,7 +14,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     searchTermPersist: string = '';
     searchResults: Recipe[];
 
-    constructor(private router: Router, private apiService: ApiService) { }
+    constructor(private apiService: ApiService) { };
 
     ngOnInit() {
         // const myNumbers = interval(500);
@@ -41,27 +40,26 @@ export class HomeComponent implements OnInit, OnDestroy {
         //     (error: string) => { console.log(error) },
         //     () => {console.log('completed');}
         // );
-    }
+    };
 
     ngOnDestroy() {
-        this.sub.unsubscribe();
-    }
+        if(this.sub) {
+            this.sub.unsubscribe();
+        }
+    };
 
     handleSearch() {
         console.log("TERM", this.searchTerm)
         this.sub = this.apiService.searchRecipes(this.searchTerm)
             .subscribe(
                 (resp) => {
-                    console.log("RESP", resp)
                     this.searchResults = resp
                 },
                 (err) => {
-                    console.log("Error searching recipes", err)
+                    console.log("Error searching recipes", err);
                 }
             )
             this.searchTermPersist = this.searchTerm;
             this.searchTerm = '';
-        // this.router.navigate(['/recipes'])
-    }
-
+    };
 }

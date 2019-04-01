@@ -12,6 +12,7 @@ export class ApiService {
     }
 
     updateRecipe(recipe: Recipe) {
+        console.log("RECIPE", recipe)
         return this.db.doc<Recipe>('recipes/' + recipe.id).update({...recipe});
     };
     createRecipe(recipe: Recipe){

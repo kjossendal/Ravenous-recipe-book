@@ -6,6 +6,9 @@ import { Unit } from 'src/app/shared/unit.model';
 import { UnitsService } from 'src/app/services/units.service';
 import { Recipe } from '../recipe.model';
 import { ApiService } from 'src/app/shared/api.service';
+import { AngularFireStorage } from '@angular/fire/storage';
+import { Observable } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 
 @Component({
     selector: 'app-recipe-edit',
@@ -19,12 +22,16 @@ export class RecipeEditComponent implements OnInit {
     units: Unit[];
     working: Boolean = true;
     html = ``;
+    uploadPercent: Observable<number>;
+    downloadURL: Observable<string>;
+    downloadURLString: string;
 
     constructor(
         private route: ActivatedRoute, 
         private apiService: ApiService,
         private router: Router,
         private unitsService: UnitsService,
+        private storage: AngularFireStorage
     ) { }
 
     ngOnInit() {
@@ -88,9 +95,9 @@ export class RecipeEditComponent implements OnInit {
 
     onSubmit() {
         const r = this.recipeForm.value;
-
+        const image = this.downloadURLString ? this.downloadURLString : r.imagePath
         if (this.editable) {
-            const newRecipe = new Recipe(this.id, r.name, r.description, r.instructions, r.imagePath, r.ingredients);
+            const newRecipe = new Recipe(this.id, r.name, r.description, r.instructions, image, r.ingredients);
             this.apiService.updateRecipe(newRecipe)
                 .then(() => {
                     this.router.navigate(['recipes/' + this.id])
@@ -99,7 +106,7 @@ export class RecipeEditComponent implements OnInit {
                     throw new Error(err)
                 })
         } else {
-            const newRecipe = {name: r.name, description: r.description, imagePath: r.imagePath, ingredients: r.ingredients} as Recipe
+            const newRecipe = {name: r.name, description: r.description, instructions: r.instructions, imagePath: image, ingredients: r.ingredients} as Recipe
             this.apiService.createRecipe(newRecipe)
                 .then((resp) => {
                     this.router.navigate(['recipes', resp.id])
@@ -108,6 +115,25 @@ export class RecipeEditComponent implements OnInit {
                     throw new Error(err)
                 })
         }
+    };
+
+    uploadFile(event) {
+        const pathName = 'recipe_images/' + new Date().toString();
+        const file = event.target.files[0];
+        const filePath = pathName;
+        const fileRef = this.storage.ref(filePath);
+        const task = this.storage.upload(filePath, file)
+        this.uploadPercent = task.percentageChanges();
+        task.then((val) => {
+            fileRef.getDownloadURL().subscribe(
+                (url) => {
+                    this.downloadURLString = url
+                },
+                (err) => {
+                    console.log("Error getting download url", err)
+                }
+            )
+        })
     };
 
     onAddIngredient() {
