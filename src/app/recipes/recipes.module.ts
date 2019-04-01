@@ -11,7 +11,6 @@ import { RecipeListComponent } from './recipe-list/recipe-list.component';
 import { RecipesRoutingModule } from './recipes-routing.module';
 import { SharedModule } from '../shared/shared.module';
 import { NgxTinymceModule } from 'ngx-tinymce';
-// import { RecipeItemCardComponent } from './recipe-list/recipe-item-card/recipe-item-card.component';
 
 @NgModule({
     declarations: [
@@ -22,7 +21,6 @@ import { NgxTinymceModule } from 'ngx-tinymce';
         RecipeItemComponent,
         RecipeToolbarComponent,
         RecipeListComponent,
-        // RecipeItemCardComponent,
     ],
     imports: [
         CommonModule, // put this in every feature module, allows access to ngif ngfor and so on

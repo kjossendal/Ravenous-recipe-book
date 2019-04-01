@@ -1,20 +1,24 @@
-<div class="jumbotron jumbotron-fluid">
+<div class="jumbotron jumbotron-fluid" style="margin-top: -65px;">
     <div class="container">
-        <!-- <div class="row"> -->
+        <div class="row title-text">
             <h1>Ravenous</h1>
-            <p>The ultimate recipe book - with none of the filler</p>
-        <!-- </div> -->
-        <div class="searchbar input-group input-group-lg">
-            <input 
-                type="text" 
-                class="form-control" 
-                [(ngModel)]="searchTerm"
-                placeholder="Search recipes" 
-                (keydown.enter)="handleSearch()"
-                aria-describedby="basic-addon-search">
-            <span class="input-group-append" id="basic-addon-search">
-                <button (click)="handleSearch()" class="btn btn-primary">Search</button>
-            </span> 
+        </div>
+        <div class="row">
+            <p class="jumbo">The ultimate recipe book - with none of the filler</p>
+        </div>
+        <div class="row">
+            <div class="searchbar input-group input-group-lg">
+                <input 
+                    type="text" 
+                    class="form-control" 
+                    [(ngModel)]="searchTerm"
+                    placeholder="Search recipes" 
+                    (keydown.enter)="handleSearch()"
+                    aria-describedby="basic-addon-search">
+                <span class="input-group-append" id="basic-addon-search">
+                    <button (click)="handleSearch()" class="btn btn-primary">Search</button>
+                </span> 
+            </div>
         </div>
     </div>
 </div>
@@ -33,5 +37,8 @@
                 <app-recipe-item-card [recipe]="recipe"></app-recipe-item-card>
             </div>
         </div>
+    </div>
+    <div *ngIf="searchResults?.length < 1 && searchInitiated" class="row">
+        <p>No Results for: {{ searchTermPersist }}</p>
     </div>
 </div>

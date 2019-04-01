@@ -15,6 +15,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     searchTermPersist: string = '';
     searchResults: Recipe[];
     working: boolean = false;
+    searchInitiated: boolean = false;
 
     constructor(private apiService: ApiService) { };
 
@@ -54,8 +55,15 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.working = true;
         this.sub = this.apiService.searchRecipes(this.searchTerm.toLowerCase()).subscribe(
             (data) => {
+                if (data.length < 1) {
+                    this.working = false;
+                    this.searchInitiated = true;
+                    this.searchResults = [];
+                    return;
+                }
                 this.searchResults = data.map(e => {
                     this.working = false;
+                    this.searchInitiated = true;
                     return {
                         id: e.payload.doc.id,
                         ...e.payload.doc.data()

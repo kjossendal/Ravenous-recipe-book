@@ -13,7 +13,6 @@ export class ApiService {
     }
 
     updateRecipe(recipe: Recipe) {
-        console.log("RECIPE", recipe)
         return this.db.doc<Recipe>('recipes/' + recipe.id).update({...recipe});
     };
     createRecipe(recipe: Recipe){
@@ -31,10 +30,10 @@ export class ApiService {
     deleteRecipe(recipe: Recipe) {
         return this.db.doc<Recipe>('recipes/' + recipe.id).delete()
         .then(() => {
+            // cascade deletion of images related to a recipe
             return this.storage.storage.refFromURL(recipe.imagePath);
         })
         .then(ref => {
-            console.log("REF", ref)
             if(ref) {
                 return ref.delete()
             }
@@ -62,7 +61,6 @@ export class ApiService {
         })
     };
     updateIngredient(ingredient: Ingredient) {
-        console.log("API UPDATE", ingredient)
         return this.db.doc<Ingredient>('shopping-list/' + ingredient.id).update({...ingredient})
     };
     deleteIngredient(id: string) {

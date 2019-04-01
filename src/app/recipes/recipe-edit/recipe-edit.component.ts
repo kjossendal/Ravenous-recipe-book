@@ -129,8 +129,7 @@ export class RecipeEditComponent implements OnInit {
             fileRef.getDownloadURL().subscribe(
                 (url) => {
                     this.downloadURLString = url;
-                    console.log("URL", this.downloadURLString);
-                    // add to the form 
+                    // add to the reactive form control
                     (<FormControl>this.recipeForm.get('imagePath')).setValue(this.downloadURLString);
                 },
                 (err) => {
