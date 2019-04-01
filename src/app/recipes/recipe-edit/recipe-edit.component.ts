@@ -128,7 +128,10 @@ export class RecipeEditComponent implements OnInit {
         task.then((val) => {
             fileRef.getDownloadURL().subscribe(
                 (url) => {
-                    this.downloadURLString = url
+                    this.downloadURLString = url;
+                    console.log("URL", this.downloadURLString);
+                    // add to the form 
+                    (<FormControl>this.recipeForm.get('imagePath')).setValue(this.downloadURLString);
                 },
                 (err) => {
                     console.log("Error getting download url", err)
@@ -162,6 +165,7 @@ export class RecipeEditComponent implements OnInit {
         return (<FormArray>this.recipeForm.get('ingredients')).controls;
     };
 
+    // tiny mce configuration
     config: any = {
         height: 250,
         theme: 'modern',

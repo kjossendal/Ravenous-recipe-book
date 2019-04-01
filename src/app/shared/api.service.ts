@@ -3,12 +3,13 @@ import { AngularFirestore } from '@angular/fire/firestore';
 
 import { Recipe } from '../recipes/recipe.model';
 import { Ingredient } from './ingredient.model';
+import { AngularFireStorage } from '@angular/fire/storage';
 
 @Injectable({
     providedIn: 'root'
 })
 export class ApiService {
-    constructor(private db: AngularFirestore) { 
+    constructor(private db: AngularFirestore, private storage: AngularFireStorage) { 
     }
 
     updateRecipe(recipe: Recipe) {
@@ -27,8 +28,18 @@ export class ApiService {
     getRecipeById(id: string) {
         return this.db.collection<Recipe>('recipes').doc('/'+ id).valueChanges();
     };
-    deleteRecipe(id: string) {
-        return this.db.doc<Recipe>('recipes/' + id).delete();
+    deleteRecipe(recipe: Recipe) {
+        return this.db.doc<Recipe>('recipes/' + recipe.id).delete()
+        .then(() => {
+            return this.storage.storage.refFromURL(recipe.imagePath);
+        })
+        .then(ref => {
+            console.log("REF", ref)
+            if(ref) {
+                return ref.delete()
+            }
+        })
+        .catch(err => console.log("Error on delete", err))
     };
     searchRecipes(term: string) {
         return this.db.collection<Recipe>('recipes', ref => ref.where('terms.'+term,'==', true)).snapshotChanges()
