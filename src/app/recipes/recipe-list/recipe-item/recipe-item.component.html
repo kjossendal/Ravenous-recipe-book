@@ -1,19 +1,20 @@
 <div 
     (click)="onRecipeSelect()"
-    style="cursor: pointer;"
-    class="card">
+    style="cursor:pointer;"
+    class="card mb-2">
     <div class="row" style="min-height:80px;">
-        <div class="col-md-8 pr-1 my-auto">
+        <div class="col-xs-8 pr-1 my-auto mx-auto">
             <div class="card-block">
                 <h5 class="card-title">{{ recipe.name | shorten:21 }}</h5>
-                <p class="card-text">{{ recipe.description | shorten:24 }}</p>
+                <!-- <p class="card-text">{{ recipe.description | shorten:24 }}</p> -->
             </div>
         </div>
-        <div class="col-md-4 my-auto">
+        <div class="col-xs-4 my-auto mx-auto">
             <img 
                 src="{{ recipe.imagePath }}" 
                 alt="{{ recipe.name }}" 
                 class="img-fluid rounded"
+                style="max-height:60px;"
             >
         </div>
     </div>

@@ -32,13 +32,11 @@
 <div class="container" *ngIf="searchResults?.length > 0">
     <p>Results for: {{ searchTermPersist }}</p>
     <div class="row">
-        <div class="row">
-            <div 
-                *ngFor="let recipe of searchResults"
-                id="list-wrapper"
-                class="col-12 col-sm-6 col-md-4">
-                <app-recipe-item-card [recipe]="recipe"></app-recipe-item-card>
-            </div>
+        <div 
+            *ngFor="let recipe of searchResults"
+            id="list-wrapper"
+            class="col-xs-12 col-sm-6 col-md-4">
+            <app-recipe-item-card [recipe]="recipe"></app-recipe-item-card>
         </div>
     </div>
     <div *ngIf="searchResults?.length < 1 && searchInitiated" class="row">

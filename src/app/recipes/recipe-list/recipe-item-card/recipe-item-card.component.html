@@ -2,15 +2,18 @@
     (click)="onRecipeSelect()"
     style="cursor: pointer;"
     class="card">
-    <img 
-        src="{{ recipe.imagePath }}" 
-        alt="{{ recipe.name }} + top image" 
-        class="card-img-top"
-        style="min-height:180px; max-height:180px;" >
+    <div class="background-placeholder">
+        <img 
+            [attr.src]="recipe.imagePath" 
+            onError="this.src='../../../../assets/images/placeholder.jpg';"
+            alt="{{ recipe.name }} + top image" 
+            class="card-img-top"
+            style="min-height:180px; max-height:180px;" >
+    </div>
     <div class="my-auto mx-auto card-body" style="height:50%">
         <div class="card-block">
             <h5 class="card-title">{{ recipe.name | shorten:21 }}</h5>
-            <p class="card-text">{{ recipe.description | shorten:83 }}</p>
+            <!-- <p class="card-text">{{ recipe.description | shorten:83 }}</p> -->
         </div>
     </div>
 </div>

@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-recipe-item-card',
   templateUrl: './recipe-item-card.component.html',
-  styleUrls: ['./recipe-item-card.component.css']
+  styleUrls: ['./recipe-item-card.component.css'],
 })
 export class RecipeItemCardComponent implements OnInit {
     @Input() recipe: Recipe;
