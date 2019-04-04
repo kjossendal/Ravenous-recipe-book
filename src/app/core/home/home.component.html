@@ -1,10 +1,12 @@
 <div class="jumbotron jumbotron-fluid" style="margin-top: -65px;">
     <div class="container">
-        <div class="row title-text">
-            <h1>Ravenous</h1>
-        </div>
         <div class="row">
-            <p class="jumbo">The ultimate recipe book - with none of the filler</p>
+            <!-- <div class="col"> -->
+                <h1 class="text-light">Ravenous</h1>
+            <!-- </div> -->
+        </div>
+        <div class="row title-text">
+            <p class="text-light">The ultimate recipe book - with none of the filler</p>
         </div>
         <div class="row">
             <div class="searchbar input-group input-group-lg">
@@ -23,16 +25,17 @@
     </div>
 </div>
 
-<div class="col-12" *ngIf="working">
+<div class="col-12" *ngIf="working && searchResults?.length < 1">
     <app-loading></app-loading>
 </div>
 
-<div class="container">
-    <div class="row" *ngIf="searchResults?.length > 0">
-        <p>Results for: {{ searchTermPersist }}</p>
+<div class="container" *ngIf="searchResults?.length > 0">
+    <p>Results for: {{ searchTermPersist }}</p>
+    <div class="row">
         <div class="row">
             <div 
                 *ngFor="let recipe of searchResults"
+                id="list-wrapper"
                 class="col-12 col-sm-6 col-md-4">
                 <app-recipe-item-card [recipe]="recipe"></app-recipe-item-card>
             </div>

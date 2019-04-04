@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Observable, Observer, Subscription, interval } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Subscription, interval } from 'rxjs';
+// import { map } from 'rxjs/operators';
 import { ApiService } from 'src/app/shared/api.service';
 import { Recipe } from 'src/app/recipes/recipe.model';
 
@@ -52,6 +52,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     };
 
     handleSearch() {
+        // this.searchResults = [];
         this.working = true;
         this.sub = this.apiService.searchRecipes(this.searchTerm.toLowerCase()).subscribe(
             (data) => {

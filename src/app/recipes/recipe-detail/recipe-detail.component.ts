@@ -42,10 +42,10 @@ export class RecipeDetailComponent implements OnInit, OnDestroy {
     };
 
     onDeleteRecipe() {
-        // this._storage.storage.refFromURL(post.coverPic).delete()
-        
-        this.apiService.deleteRecipe(this.currentRecipe);
-        this.router.navigate(['recipes']);
+        this.apiService.deleteRecipe(this.currentRecipe)
+            .then(() => {
+                this.router.navigate(['recipes']);
+            })
     };
 
     isAuth() {

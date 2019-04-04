@@ -2,23 +2,29 @@
     display: flex;
     height: 450px;
     justify-content: center;
+    align-items: center;
     background-image: url('https://s3.amazonaws.com/codecademy-content/programs/react/ravenous/background_search_desktop.jpg');
     background-size: cover;
     background-repeat: no-repeat;
-};
+}
 .title-text {
-    padding-bottom: 20px;
-};
-h1 {
+    padding-bottom: 50px;
+}
+div.jumbotron.jumbotron-fluid > div > div:nth-child(1) > h1 {
     font-size: 65px;
-};
+}
 p {
     font-size: 20px;
-};
-h1, p.jumbo {
+}
+.title-text>h1, p.jumbo {
     color: #E2E2E2;
-};
+}
 .searchbar {
     margin: 0 auto;
     width: 70%;
-};
+}
+#list-wrapper {
+    /* display: grid;
+    grid-template-columns: 1fr 1fr 1fr; */
+
+}
