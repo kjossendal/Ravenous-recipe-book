@@ -36,6 +36,7 @@
             *ngFor="let recipe of searchResults"
             id="list-wrapper"
             class="col-xs-12 col-sm-6 col-md-4">
+            <!-- {{recipe.lastUpdated.toDate() | date }} -->
             <app-recipe-item-card [recipe]="recipe"></app-recipe-item-card>
         </div>
     </div>

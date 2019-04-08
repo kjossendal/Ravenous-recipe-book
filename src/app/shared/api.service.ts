@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
+import * as fb from 'firebase';
 
 import { Recipe } from '../recipes/recipe.model';
 import { Ingredient } from './ingredient.model';
@@ -12,11 +13,11 @@ export class ApiService {
     constructor(private db: AngularFirestore, private storage: AngularFireStorage) { 
     }
 
-    updateRecipe(recipe: Recipe) {
-        return this.db.doc<Recipe>('recipes/' + recipe.id).update({...recipe});
+    updateRecipe(id, recipe: Recipe) {
+        return this.db.doc<Recipe>('recipes/' + id).update({...recipe});
     };
     createRecipe(recipe: Recipe){
-        return this.db.collection<Recipe>('recipes').add({...recipe});
+        return this.db.collection<Recipe>('recipes').add({...recipe, lastUpdated: fb.firestore.Timestamp.now()});
     };
     getRecipes() {
         return this.db.collection<Recipe>('recipes').snapshotChanges();
@@ -27,6 +28,9 @@ export class ApiService {
     getRecipeById(id: string) {
         return this.db.collection<Recipe>('recipes').doc('/'+ id).valueChanges();
     };
+    getNewestRecipes() {
+        return this.db.collection<Recipe>('recipes', ref => ref.orderBy('lastUpdated', 'desc').limit(3)).snapshotChanges();
+    }
     deleteRecipe(recipe: Recipe) {
         return this.db.doc<Recipe>('recipes/' + recipe.id).delete()
         .then(() => {
@@ -41,7 +45,7 @@ export class ApiService {
         .catch(err => console.log("Error on delete", err))
     };
     searchRecipes(term: string) {
-        return this.db.collection<Recipe>('recipes', ref => ref.where('terms.'+term,'==', true)).snapshotChanges()
+        return this.db.collection<Recipe>('recipes', ref => ref.where('tags.'+term,'==', true)).snapshotChanges()
     }
 
     /* ****** Shopping List Section ************* */

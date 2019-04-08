@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
+import * as firebase from 'firebase';
 
 import { Unit } from 'src/app/shared/unit.model';
 import { UnitsService } from 'src/app/services/units.service';
@@ -50,6 +51,8 @@ export class RecipeEditComponent implements OnInit {
         let recipeDescription = '';
         let recipeInstructions = '';
         let recipeIngredients = new FormArray([]);
+        let recipeTags = [];
+        let tagsString = '';
 
         if(this.editable) {
             this.apiService.getRecipeById(this.id).subscribe(
@@ -58,6 +61,12 @@ export class RecipeEditComponent implements OnInit {
                     recipeImagePath = data.imagePath;
                     recipeDescription = data.description;
                     recipeInstructions = data.instructions;
+                    // create comma separated string from hasmap
+                    Object.keys(data.tags).forEach(key => {
+                        recipeTags.push(key)
+                    });
+                    tagsString = recipeTags.join()
+                    // create inputs from each ingredient
                     data.ingredients.map(i => {
                         recipeIngredients.push(
                             new FormGroup({
@@ -76,6 +85,7 @@ export class RecipeEditComponent implements OnInit {
                         'description': new FormControl(recipeDescription, Validators.required),
                         'instructions': new FormControl(recipeInstructions, Validators.required),
                         'ingredients': recipeIngredients,
+                        'tags': new FormControl(tagsString, Validators.required)
                     })
                     return
                 },
@@ -89,16 +99,32 @@ export class RecipeEditComponent implements OnInit {
             'description': new FormControl(recipeDescription, Validators.required),
             'instructions': new FormControl(recipeInstructions, Validators.required),
             'ingredients': recipeIngredients,
+            'tags': new FormControl(tagsString, Validators.required)
         })
         this.working = false;
     };
 
     onSubmit() {
         const r = this.recipeForm.value;
+        // determine if image is url or local file
         const image = this.downloadURLString ? this.downloadURLString : r.imagePath
+        // create hasmap from comma separated tag values
+        let tags = {};
+        r.tags.split(',').map(tag => {
+            tags[tag.trim()] = true
+        })
         if (this.editable) {
-            const newRecipe = new Recipe(this.id, r.name, r.description, r.instructions, image, r.ingredients);
-            this.apiService.updateRecipe(newRecipe)
+            const newRecipe = new Recipe(
+                this.id, 
+                r.name, 
+                r.description, 
+                r.instructions, 
+                image, 
+                r.ingredients, 
+                tags, 
+                firebase.firestore.Timestamp.now()
+            );
+            this.apiService.updateRecipe(this.id, newRecipe)
                 .then(() => {
                     this.router.navigate(['recipes/' + this.id])
                 })
@@ -106,7 +132,16 @@ export class RecipeEditComponent implements OnInit {
                     throw new Error(err)
                 })
         } else {
-            const newRecipe = {name: r.name, description: r.description, instructions: r.instructions, imagePath: image, ingredients: r.ingredients} as Recipe
+            const newRecipe = {
+                id: this.id, 
+                name: r.name, 
+                description: r.description, 
+                instructions: r.instructions, 
+                imagePath: image, 
+                ingredients: r.ingredients, 
+                tags:tags, 
+                lastUpdated: firebase.firestore.Timestamp.now()
+            } as Recipe;
             this.apiService.createRecipe(newRecipe)
                 .then((resp) => {
                     this.router.navigate(['recipes', resp.id])

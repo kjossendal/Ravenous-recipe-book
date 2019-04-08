@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription, interval } from 'rxjs';
-// import { map } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 import { ApiService } from 'src/app/shared/api.service';
 import { Recipe } from 'src/app/recipes/recipe.model';
 
@@ -12,7 +11,7 @@ import { Recipe } from 'src/app/recipes/recipe.model';
 export class HomeComponent implements OnInit, OnDestroy {
     sub: Subscription;
     searchTerm: string = '';
-    searchTermPersist: string = '';
+    searchTermPersist: string = 'Latest';
     searchResults: Recipe[];
     working: boolean = false;
     searchInitiated: boolean = false;
@@ -20,6 +19,17 @@ export class HomeComponent implements OnInit, OnDestroy {
     constructor(private apiService: ApiService) { };
 
     ngOnInit() {
+        this.apiService.getNewestRecipes().subscribe(
+            data => {
+                this.searchResults = data.map(e => {
+                    this.working = false;
+                    return {
+                        id: e.payload.doc.id,
+                        ...e.payload.doc.data()
+                    } as Recipe
+                })
+            }
+        )
         // const myNumbers = interval(500);
         // myNumbers.subscribe((number: Number) => {
         //     console.log("number", number)

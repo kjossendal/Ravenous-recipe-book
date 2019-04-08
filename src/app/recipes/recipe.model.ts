@@ -7,13 +7,25 @@ export class Recipe {
     public instructions: string;
     public imagePath: string;
     public ingredients: Ingredient[];
+    public tags: Object;
+    public lastUpdated: Object; // not sure if this should be typed as a firebase timestamp?
 
-    constructor(id: string, name: string, desc: string, instructions: string, imagePath: string, ingredients: Ingredient[]) {
+    constructor(
+        id: string, 
+        name: string, 
+        desc: string, 
+        instructions: string, 
+        imagePath: string, 
+        ingredients: Ingredient[],
+        tags: Object,
+        lastUpdated: Object) {
         this.id = id;
         this.name = name;
         this.description = desc;
         this.instructions = instructions;
         this.imagePath = imagePath;
         this.ingredients = ingredients;
+        this.tags = tags;
+        this.lastUpdated = lastUpdated;
     }
 };
