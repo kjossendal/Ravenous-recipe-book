@@ -16,8 +16,8 @@ export class ApiService {
     updateRecipe(id, recipe: Recipe) {
         return this.db.doc<Recipe>('recipes/' + id).update({...recipe});
     };
-    createRecipe(recipe: Recipe){
-        return this.db.collection<Recipe>('recipes').add({...recipe, lastUpdated: fb.firestore.Timestamp.now()});
+    createRecipe(recipe){
+        return this.db.collection<any>('recipes').add({...recipe, lastUpdated: fb.firestore.Timestamp.now()});
     };
     getRecipes() {
         return this.db.collection<Recipe>('recipes').snapshotChanges();

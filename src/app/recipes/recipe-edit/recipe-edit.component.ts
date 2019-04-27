@@ -133,7 +133,6 @@ export class RecipeEditComponent implements OnInit {
                 })
         } else {
             const newRecipe = {
-                id: this.id, 
                 name: r.name, 
                 description: r.description, 
                 instructions: r.instructions, 
@@ -141,7 +140,7 @@ export class RecipeEditComponent implements OnInit {
                 ingredients: r.ingredients, 
                 tags:tags, 
                 lastUpdated: firebase.firestore.Timestamp.now()
-            } as Recipe;
+            };
             this.apiService.createRecipe(newRecipe)
                 .then((resp) => {
                     this.router.navigate(['recipes', resp.id])
