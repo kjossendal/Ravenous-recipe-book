@@ -11,6 +11,7 @@ import { RecipeListComponent } from './recipe-list/recipe-list.component';
 import { RecipesRoutingModule } from './recipes-routing.module';
 import { SharedModule } from '../shared/shared.module';
 import { NgxTinymceModule } from 'ngx-tinymce';
+import { ImageCropperModule } from 'ngx-image-cropper';
 
 @NgModule({
     declarations: [
@@ -32,7 +33,8 @@ import { NgxTinymceModule } from 'ngx-tinymce';
             // baseURL: './assets/tinymce/',
             // // or cdn
             baseURL: '//cdnjs.cloudflare.com/ajax/libs/tinymce/4.9.0/'
-        })
+        }),
+        ImageCropperModule
     ]
 })
 export class RecipesModule { }

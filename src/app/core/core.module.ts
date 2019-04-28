@@ -24,7 +24,7 @@ import { RecipeItemCardComponent } from '../recipes/recipe-list/recipe-item-card
     imports: [
         SharedModule,
         AppRoutingModule,
-        FormsModule
+        FormsModule,
     ],
     exports: [
         AppRoutingModule,

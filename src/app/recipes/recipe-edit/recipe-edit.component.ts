@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
+import { ImageCroppedEvent } from 'ngx-image-cropper';
 import * as firebase from 'firebase';
 
 import { Unit } from 'src/app/shared/unit.model';
@@ -26,6 +27,8 @@ export class RecipeEditComponent implements OnInit {
     downloadURL: Observable<string>;
     downloadURLString: string;
     showLoadingProgress: boolean = false;
+    imageChangedEvent: any = '';
+    croppedImage: any = '';
 
     constructor(
         private route: ActivatedRoute, 
@@ -59,6 +62,7 @@ export class RecipeEditComponent implements OnInit {
                 (data: Recipe) => {
                     recipeName = data.name;
                     recipeImagePath = data.imagePath;
+                    this.croppedImage = data.imagePath;
                     recipeDescription = data.description;
                     recipeInstructions = data.instructions;
                     // create comma separated string from hasmap
@@ -105,6 +109,7 @@ export class RecipeEditComponent implements OnInit {
     };
 
     onSubmit() {
+        console.log("Submitting!!!!!!!!!!")
         const r = this.recipeForm.value;
         // determine if image is url or local file
         const image = this.downloadURLString ? this.downloadURLString : r.imagePath
@@ -151,11 +156,35 @@ export class RecipeEditComponent implements OnInit {
         }
     };
 
+    fileChangeEvent(event: any): void {
+        this.imageChangedEvent = event;
+    }
+    imageCropped(event: ImageCroppedEvent) {
+        this.croppedImage = event.base64;
+    }
+    imageLoaded() {
+        // show cropper
+    }
+    cropperReady() {
+        // cropper ready
+    }
+    loadImageFailed() {
+        // show message
+    }
+    dataURLtoFile(dataurl, filename) {
+        var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+            bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+        while(n--){
+            u8arr[n] = bstr.charCodeAt(n);
+        }
+        return new File([u8arr], filename, {type:mime});
+    }
+
     uploadFile(event) {
+        event.preventDefault();
+        const file = this.dataURLtoFile(this.croppedImage, 'tempFileName.png')
         this.showLoadingProgress = true;
-        const pathName = 'recipe_images/' + new Date().toString();
-        const file = event.target.files[0];
-        const filePath = pathName;
+        const filePath = 'recipe_images/' + new Date().toString();
         const fileRef = this.storage.ref(filePath);
         const task = this.storage.upload(filePath, file)
         this.uploadPercent = task.percentageChanges();
